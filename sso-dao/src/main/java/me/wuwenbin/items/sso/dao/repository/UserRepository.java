@@ -2,6 +2,7 @@ package me.wuwenbin.items.sso.dao.repository;
 
 import me.wuwenbin.items.sso.dao.entity.User;
 import me.wuwenbin.modules.repository.annotation.field.Routers;
+import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,4 +27,6 @@ public interface UserRepository extends IPageAndSortRepository<User, Long> {
     @Routers(EDIT_USER)
     int editUserInfo(User user);
 
+    @SQL("UPDATE t_oauth_user SET enabled = 0 WHERE id = :id")
+    int updateUserStatus();
 }
