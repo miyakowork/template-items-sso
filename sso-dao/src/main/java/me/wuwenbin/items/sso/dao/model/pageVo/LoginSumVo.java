@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- *
  * @author wuwenbin
  * @date 2017/8/19
  */

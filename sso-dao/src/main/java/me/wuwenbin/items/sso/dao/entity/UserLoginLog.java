@@ -9,7 +9,9 @@ import me.wuwenbin.modules.sql.annotation.SQLTable;
 import java.time.LocalDateTime;
 
 /**
- * Created by wuwenbin on 2017/7/12/012.
+ *
+ * @author wuwenbin
+ * @date 2017/7/12/012
  * 用户登陆日志
  */
 @SQLTable("t_oauth_user_login_log")

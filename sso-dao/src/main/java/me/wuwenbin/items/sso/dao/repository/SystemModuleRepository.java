@@ -4,6 +4,8 @@ import me.wuwenbin.items.sso.dao.entity.SystemModule;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
+import me.wuwenbin.modules.sql.constant.Router;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -43,5 +45,22 @@ public interface SystemModuleRepository extends IPageAndSortRepository<SystemMod
             "IN(SELECT DISTINCT system_code FROM t_oauth_role WHERE  id " +
             "IN(SELECT role_id FROM t_oauth_user_role ur,t_oauth_user u WHERE u.id = ur.user_id AND u.username = ?))")
     List<SystemModule> findByUserCanLogin(String username);
+
+    /**
+     * 查找可用的系统模块
+     *
+     * @param enabled
+     * @return
+     */
+    List<SystemModule> findByEnabled(boolean enabled);
+
+    /**
+     * 修改
+     *
+     * @param systemModule
+     * @return
+     */
+    @Modify(Router.DEFAULT)
+    int updateById(SystemModule systemModule);
 
 }

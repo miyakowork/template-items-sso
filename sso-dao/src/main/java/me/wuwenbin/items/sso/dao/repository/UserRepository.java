@@ -23,10 +23,46 @@ public interface UserRepository extends IPageAndSortRepository<User, Long> {
      *
      * @param user
      * @return
+     * @throws Exception
      */
     @Routers(EDIT_USER)
-    int editUserInfo(User user);
+    int editUserInfo(User user) throws Exception;
 
+    /**
+     * 批量更改用户为不可用状态
+     *
+     * @param ids
+     * @return
+     * @throws Exception
+     */
     @SQL("UPDATE t_oauth_user SET enabled = 0 WHERE id = :id")
-    int updateUserStatus();
+    int updateUserStatus(String[] ids) throws Exception;
+
+    /**
+     * 根据用户id修改该用户的默认角色id
+     *
+     * @param defaultRoleId
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    int updateDefaultRoleIdById(long defaultRoleId, long userId) throws Exception;
+
+    /**
+     * 通过用户名查找user对象
+     *
+     * @param username
+     * @return
+     */
+    User findByUsername(String username);
+
+    /**
+     * 更新用户密码
+     *
+     * @param password
+     * @param id
+     * @return
+     */
+    int updatePasswordById(String password, long id) throws Exception;
+
 }

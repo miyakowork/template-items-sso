@@ -1,12 +1,14 @@
 package me.wuwenbin.items.sso.dao.repository;
 
 import me.wuwenbin.items.sso.dao.entity.UserLoginLog;
-import me.wuwenbin.modules.repository.annotation.field.Routers;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.constant.Parametric;
+import me.wuwenbin.modules.repository.provider.save.annotation.SaveSQL;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -40,4 +42,13 @@ public interface UserLoginLogRepository extends IPageAndSortRepository<UserLogin
             "AND  date_format(toull.last_login_date,'%Y-%m-%d') = :dateStr GROUP BY  toull.user_id")
     int countMountByDeptIdsAndDate(Map<String, Object> mountMap);
 
+    /**
+     * 插入基本日志信息，用户id，用户最后登录ip，用户最后登录时间
+     *
+     * @param userId
+     * @param lastLoginIp
+     * @return
+     */
+    @SaveSQL(columns = {"user_id", "last_login_ip,last_login_date"}, type = Parametric.Doubt)
+    int insertLogInfo(long userId, String lastLoginIp, LocalDateTime now);
 }

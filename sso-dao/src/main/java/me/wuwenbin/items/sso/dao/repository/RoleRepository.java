@@ -5,6 +5,9 @@ import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.find.annotation.OrderBy;
+import me.wuwenbin.modules.repository.provider.find.annotation.Primitive;
+import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
+import me.wuwenbin.modules.sql.constant.Router;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -45,4 +48,51 @@ public interface RoleRepository extends IPageAndSortRepository<Role, Long> {
      * @return
      */
     int countByParentIdAndEnabled(Long pId, boolean enabled);
+
+    /**
+     * 根据userId查找用户的角色集合信息
+     *
+     * @param userId
+     * @return
+     */
+    @SQL("SELECT tor.* FROM t_oauth_role tor WHERE tor.id IN" +
+            " (SELECT tour.role_id FROM t_oauth_user_role tour WHERE tour.user_id = ?)" +
+            " AND tor.enabled = 1")
+    List<Role> findRolesByUserId(long userId);
+
+    /**
+     * 通过userId查找角色名集合
+     *
+     * @param userId
+     * @return
+     */
+    @SQL("SELECT tor.name AS role_name FROM t_oauth_role tor WHERE tor.id IN" +
+            " (SELECT tour.role_id FROM t_oauth_user_role tour WHERE tour.user_id = ?)" +
+            " AND tor.enabled = 1")
+    @Primitive
+    List<String> findRoleNamesByUserId(long userId);
+
+    /**
+     * 根据用户id和系统模块代码查询用户在此系统下的所有角色
+     *
+     * @param userId
+     * @param systemCode
+     * @return
+     */
+    @SQL("SELECT tor.* FROM t_oauth_role tor WHERE tor.id IN" +
+            " (SELECT tour.role_id FROM t_oauth_user_role tour WHERE tour.user_id = ?)" +
+            " AND tor.enabled = 1 AND tor.system_code = ?")
+    @OrderBy("tor.id")
+    List<Role> findRolesByUserIdAndSystemCode(long userId, String systemCode);
+
+    /**
+     * 修改角色
+     *
+     * @param role
+     * @return
+     */
+    @Modify(Router.DEFAULT)
+    int updateById(Role role);
+
+
 }

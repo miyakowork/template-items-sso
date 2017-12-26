@@ -3,6 +3,8 @@ package me.wuwenbin.items.sso.dao.repository;
 import me.wuwenbin.items.sso.dao.entity.SystemParam;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
+import me.wuwenbin.modules.sql.constant.Router;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -21,4 +23,13 @@ public interface SystemParamRepository extends IPageAndSortRepository<SystemPara
      * @return
      */
     SystemParam findByName(String name);
+
+    /**
+     * 修改
+     *
+     * @param systemParam
+     * @return
+     */
+    @Modify(Router.DEFAULT)
+    int updateById(SystemParam systemParam);
 }

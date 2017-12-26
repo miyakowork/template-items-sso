@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 
 
 /**
- * Created by Wuwenbin on 2017/7/12/012.
+ *
+ * @author Wuwenbin
+ * @date 2017/7/12/012
  * 部门表
  */
 @SQLTable("t_oauth_department")

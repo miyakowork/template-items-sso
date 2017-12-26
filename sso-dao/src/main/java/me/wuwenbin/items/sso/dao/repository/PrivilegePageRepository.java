@@ -3,6 +3,8 @@ package me.wuwenbin.items.sso.dao.repository;
 import me.wuwenbin.items.sso.dao.entity.PrivilegePage;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
+import me.wuwenbin.modules.sql.constant.Router;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,7 +24,15 @@ public interface PrivilegePageRepository extends IPageAndSortRepository<Privileg
      * @param resourceModuleId
      * @return
      */
-    List<PrivilegePage> findByResourceModulId(String resourceModuleId);
+    List<PrivilegePage> findByResourceModuleId(String resourceModuleId);
 
+    /**
+     * 修改
+     *
+     * @param privilegePage
+     * @return
+     */
+    @Modify(Router.DEFAULT)
+    int updateById(PrivilegePage privilegePage);
 
 }

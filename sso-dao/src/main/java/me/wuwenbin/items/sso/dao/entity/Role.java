@@ -3,6 +3,8 @@ package me.wuwenbin.items.sso.dao.entity;
 
 import lombok.*;
 import me.wuwenbin.items.sso.dao.entity.base.DataEntity;
+import me.wuwenbin.items.sso.dao.repository.RoleRepository;
+import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
 import me.wuwenbin.modules.sql.annotation.SQLColumn;
 import me.wuwenbin.modules.sql.annotation.SQLTable;
 
@@ -10,7 +12,9 @@ import java.time.LocalDateTime;
 
 /**
  * 角色表
- * Created by wuwenbin on 2017/7/12.
+ *
+ * @author wuwenbin
+ * @date 2017/7/12
  */
 @SQLTable("t_oauth_role")
 @Setter
@@ -39,4 +43,25 @@ public class Role extends DataEntity<Long> {
         r.setRemark("根节点");
         return r;
     }
+
+    @Override
+    public String nodeId() {
+        return getId().toString();
+    }
+
+    @Override
+    public String nodePId() {
+        return getParentId().toString();
+    }
+
+    @Override
+    public String nodeName() {
+        return getCnName();
+    }
+
+    @Override
+    public boolean nodeIsParent() {
+        return RepositoryFactory.get(RoleRepository.class).countByParentIdAndEnabled(getParentId(), true) != 0;
+    }
+
 }

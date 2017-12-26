@@ -8,7 +8,8 @@ import me.wuwenbin.modules.sql.annotation.SQLTable;
 import java.time.LocalDateTime;
 
 /**
- * Created by wuwenbin on 2017/7/14.
+ * @author wuwenbin
+ * @date 2017/7/14
  * 系统模块表
  */
 @SQLTable("t_oauth_system_module")
@@ -39,4 +40,24 @@ public class SystemModule extends DataEntity<Long> {
         return root;
     }
 
+    @Override
+    public String nodeId() {
+        return getId().toString();
+    }
+
+    @Override
+    public String nodePId() {
+        return "0";
+    }
+
+    @Override
+    public String nodeName() {
+        return getName();
+    }
+
+
+    @Override
+    public Object nodeOther() {
+        return getSystemCode();
+    }
 }

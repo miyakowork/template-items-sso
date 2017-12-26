@@ -4,6 +4,7 @@ import me.wuwenbin.items.sso.dao.entity.RoleResource;
 import me.wuwenbin.modules.repository.annotation.field.Routers;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
+import me.wuwenbin.modules.repository.provider.find.annotation.PrimitiveCollection;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -25,8 +26,10 @@ public interface RoleResourceRepository extends IBaseCrudRepository<RoleResource
      * 根据roleId和enabled状态查找资源id集合
      *
      * @param roleId
+     * @param enabled
      * @return
      */
+    @PrimitiveCollection
     List<String> findResourceIdByRoleIdAndEnabled(String roleId, boolean enabled);
 
     /**
@@ -34,14 +37,16 @@ public interface RoleResourceRepository extends IBaseCrudRepository<RoleResource
      *
      * @param paramMap
      * @return
+     * @throws Exception
      */
     @Routers(INSERT_ROLE_RESOURCE)
-    int saveRoleResource(Collection<Map<String, Object>> paramMap);
+    int saveRoleResource(Collection<Map<String, Object>> paramMap) throws Exception;
 
     /**
      * 删除角色资源对照记录
      *
-     * @param paramMap
+     * @param params
+     * @throws Exception
      */
-    void deleteByRoleIdAndResourceId(Collection<Map<String, Object>> paramMap);
+    void deleteByRoleIdAndResourceId(Collection<RoleResource> params) throws Exception;
 }

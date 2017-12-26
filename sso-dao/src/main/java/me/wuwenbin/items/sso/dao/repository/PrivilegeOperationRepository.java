@@ -22,8 +22,9 @@ public interface PrivilegeOperationRepository extends IPageAndSortRepository<Pri
      * @param operationName
      * @param id
      * @return
+     * @throws Exception
      */
-    int updateOperationNameById(String operationName, long id);
+    int updateOperationNameById(String operationName, long id) throws Exception;
 
     /**
      * 根据pagePrivilegeId查找页面级权限集合

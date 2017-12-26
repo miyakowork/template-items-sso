@@ -7,6 +7,7 @@ import me.wuwenbin.modules.sql.annotation.SQLColumn;
 import me.wuwenbin.modules.sql.annotation.SQLTable;
 
 import static me.wuwenbin.items.sso.dao.constant.SQLRouters.EDIT_MENU;
+import static me.wuwenbin.items.sso.dao.constant.SQLRouters.FIND_LEFT_MENU;
 
 /**
  * 菜单表
@@ -28,6 +29,7 @@ public class Menu extends DataEntity<Long> {
     @SQLColumn(routers = EDIT_MENU)
     private String name;
     private Long resourceId;
+    @SQLColumn(routers = FIND_LEFT_MENU)
     private String systemCode;
     @SQLColumn(routers = EDIT_MENU)
     private String icon;
@@ -37,7 +39,9 @@ public class Menu extends DataEntity<Long> {
     private String href;
     private String onclick;
     private String target;
+    @SQLColumn(routers = FIND_LEFT_MENU)
     private Long roleId;
+    @SQLColumn(routers = FIND_LEFT_MENU)
     private Long menuModuleId;
     @SQLColumn(routers = EDIT_MENU)
     private Long parentId;

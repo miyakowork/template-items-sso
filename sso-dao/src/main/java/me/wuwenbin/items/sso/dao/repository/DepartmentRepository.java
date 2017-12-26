@@ -3,6 +3,8 @@ package me.wuwenbin.items.sso.dao.repository;
 import me.wuwenbin.items.sso.dao.entity.Department;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
+import me.wuwenbin.modules.sql.constant.Router;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -39,4 +41,13 @@ public interface DepartmentRepository extends IPageAndSortRepository<Department,
      * @return
      */
     List<Department> findByParentId(long id);
+
+    /**
+     * 更新Department
+     *
+     * @return
+     */
+    @Modify(Router.DEFAULT)
+    int updateById(Department department);
+
 }

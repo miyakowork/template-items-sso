@@ -19,4 +19,14 @@ public interface SQLRouters {
      * 编辑用户
      */
     int EDIT_USER = 3;
+
+    /**
+     * 查找左侧菜单
+     */
+    int FIND_LEFT_MENU = 4;
+
+    /**
+     * 更新会话
+     */
+    int UPDATE_SESSION = 5;
 }

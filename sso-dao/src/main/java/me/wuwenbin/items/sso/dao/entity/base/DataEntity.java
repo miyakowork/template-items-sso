@@ -8,20 +8,19 @@ import me.wuwenbin.modules.sql.annotation.SQLColumn;
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
-import static me.wuwenbin.items.sso.dao.constant.SQLRouters.EDIT_MENU;
-import static me.wuwenbin.items.sso.dao.constant.SQLRouters.EDIT_USER;
+import static me.wuwenbin.items.sso.dao.constant.SQLRouters.*;
 
 /**
  * created by Wuwenbin on 2017/12/22 at 9:58
  *
  * @author wuwenbin
  */
-@MappedSuper
 @Getter
 @Setter
-public class DataEntity<PK> extends BaseEntity<PK> {
+@MappedSuper
+public class DataEntity<PK> extends TreeEntity<PK> {
 
-    @SQLColumn(routers = EDIT_USER)
+    @SQLColumn(routers = {EDIT_USER, FIND_LEFT_MENU})
     protected Boolean enabled;
     @SQLColumn(routers = {EDIT_MENU, EDIT_USER})
     protected Integer orderIndex;
@@ -59,34 +58,5 @@ public class DataEntity<PK> extends BaseEntity<PK> {
         super.updateDate = LocalDateTime.now();
     }
 
-    @Override
-    public String nodeId() {
-        return null;
-    }
-
-    @Override
-    public String nodePId() {
-        return null;
-    }
-
-    @Override
-    public String nodeName() {
-        return null;
-    }
-
-    @Override
-    public boolean nodeOpen() {
-        return false;
-    }
-
-    @Override
-    public boolean nodeIsParent() {
-        return false;
-    }
-
-    @Override
-    public Object nodeOther() {
-        return null;
-    }
 
 }

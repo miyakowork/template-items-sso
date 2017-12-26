@@ -2,6 +2,7 @@ package me.wuwenbin.items.sso.dao.entity.base;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.wuwenbin.modules.sql.annotation.MappedSuper;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.function.Supplier;
  */
 @Getter
 @Setter
+@MappedSuper
 public abstract class BaseEntity<PK> implements Serializable {
 
     LocalDateTime createDate;
@@ -23,11 +25,11 @@ public abstract class BaseEntity<PK> implements Serializable {
 
     public abstract void preInsert();
 
-    public abstract void preInsert(Supplier<PK> supplier);
+    public abstract void preInsert(Supplier<PK> insertCreateAndUpdateUserId);
 
     public abstract void preUpdate();
 
-    public abstract void preUpdate(Supplier<PK> supplier);
+    public abstract void preUpdate(Supplier<PK> insertUpdateUserId);
 
     /**
      * 普通list集合转ztree对象list集合的id中间件
