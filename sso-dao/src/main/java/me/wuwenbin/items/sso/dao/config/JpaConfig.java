@@ -5,7 +5,6 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import me.wuwenbin.modules.jpa.factory.DaoFactory;
 import me.wuwenbin.modules.jpa.factory.business.DataSourceX;
 import me.wuwenbin.modules.jpa.factory.business.DbType;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,12 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Template JPA相关配置
  * created by Wuwenbin on 2017/12/22 at 9:32
+ *
+ * @author wuwenbin
  */
 @Configuration
 public class JpaConfig {
 
     @Bean
-    @ConfigurationProperties("spring.datasource.druid")
     public DruidDataSource dataSourceOne() {
         return DruidDataSourceBuilder.create().build();
     }

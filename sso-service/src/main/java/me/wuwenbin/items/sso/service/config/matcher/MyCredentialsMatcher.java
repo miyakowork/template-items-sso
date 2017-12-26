@@ -8,7 +8,6 @@ import me.wuwenbin.items.sso.service.config.password.PasswordHelper;
 import me.wuwenbin.items.sso.service.constant.CacheConsts;
 import me.wuwenbin.items.sso.service.constant.ShiroConsts;
 import me.wuwenbin.items.sso.service.support.util.HttpUtils;
-import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
@@ -19,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -40,8 +40,10 @@ public class MyCredentialsMatcher extends SimpleCredentialsMatcher {
     @Autowired
     private CacheManager cacheManager;
 
-    private UserRepository userRepository = RepositoryFactory.get(UserRepository.class);
-    private UserLoginLogRepository loginLogRepository = RepositoryFactory.get(UserLoginLogRepository.class);
+    @Resource
+    private UserRepository userRepository;
+    @Resource
+    private UserLoginLogRepository loginLogRepository;
     private Cache<String, AtomicInteger> passwordRetryCache;
 
     @Autowired

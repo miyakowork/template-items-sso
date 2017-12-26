@@ -1,0 +1,147 @@
+* {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+body {
+    font-family: "Verdana", "Tahoma", "Lucida Grande", "Microsoft YaHei", "Hiragino Sans GB", sans-serif !important;
+}
+
+body.mac .fixed-header nav > ul {
+    width: 108% !important;
+}
+
+#logo {
+    color: #ffffff !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    margin-top: 8px !important;
+}
+
+.router-container {
+    margin-left: 10px;
+}
+
+.smart-style-1 #toolbar {
+    padding-bottom: 5px;
+}
+
+.smart-style-1 nav ul li.active:not(.open) {
+    background-color: #1b1e24;
+}
+
+#left-panel .login-info img {
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-close span {
+    display: none;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+    padding: 10px !important;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding-top: 1.5em !important;
+    padding-right: 3em !important;
+}
+
+.bootstrap-table .pull-right .dropdown-menu {
+    min-width: 220px !important;
+}
+
+div[id$='-toolbar'] {
+    float: left !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.smart-style-0 #logo, .smart-style-0 #tp-date {
+    color: #0C0C0C !important;
+}
+
+.smart-style-3 .login-info a:hover {
+    color: #000000 !important;
+}
+
+.smart-style-0 .page-footer {
+    background-color: #3a3633 !important;
+    color: #c0bbb7 !important;
+}
+
+.smart-style-1 .page-footer {
+    color: #8b91a0 !important;
+}
+
+.smart-style-2 .page-footer {
+    background-color: #f7f7f7 !important;
+    color: #787572 !important;
+}
+
+.smart-style-3 .page-footer {
+    background-color: #f2f2f2 !important;
+}
+
+.smart-style-4 .page-footer {
+    background-color: #3a3f51 !important;
+    color: #bbc0cf !important;;
+}
+
+.pagination > li > a, .pagination > li > span {
+    -webkit-box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0);
+}
+
+.panel-body {
+    overflow: auto !important;
+}
+
+.smart-style-2 #left-panel {
+    padding: 49px 0 0 !important;
+}
+
+.smart-style-2 nav ul li.active > a:before {
+    color: #6c6c6c !important;
+}
+
+.smart-style-2 .login-info {
+    width: 219px !important;
+}
+
+.smart-style-2 .login-info span {
+    padding: 1px 8px 1px !important;
+}
+
+.smart-style-2 .login-info a span, .smart-style-2 .login-info a {
+    font-size: 14px !important;
+}
+
+.smart-style-5 .fc-border-separate thead tr, .smart-style-5 .table thead tr, .smart-style-5 #left-panel aside {
+    background: rgba(0, 0, 0, .43) !important;
+}
+
+.smart-style-5 .ztree li a {
+    color: #fff !important;
+}
+
+#background {
+    display: none;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    background: #FFF;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.role-group {
+    margin-left: 0 !important;
+}

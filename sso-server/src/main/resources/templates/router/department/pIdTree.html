@@ -1,0 +1,54 @@
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" media="screen"
+      href="/static/js/plugin/bootstrap-ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" type="text/css" media="screen"
+      href="/static/js/plugin/bootstrap-ztree/css/font-awesome-zTree.css">
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body" style="min-height: 300px;">
+                <ul id="DepartmentTreeP" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="/static/js/libs/jquery-2.1.1.min.js"></script>
+<script src="/static/js/plugin/bootstrap-ztree/js/jquery.ztree.all.min.js"></script>
+<script src="/static/js/plugin/bootstrap-ztree/js/jquery.ztree.exhide.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var settings = {
+            data: {
+                simpleData: {
+                    enable: true,
+                    rootPId: 0
+                }
+            },
+            view: {
+                selectedMulti: false
+            },
+            callback: {
+                onDblClick: function (event, treeId, treeNode) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.department.model.parentId = treeNode.id;
+                    parent.department.model.parentName = treeNode.name;
+                    parent.layer.close(index);
+                }
+            }
+        };
+
+        $.get("/oauth2/department/api/selectDepartment?id=0", function (json) {
+            for (var node in json) {
+                json[node].open = true;
+            }
+            $.fn.zTree.init($("#DepartmentTreeP"), settings, json);
+            var hiddenId = parent.department.model.id;
+            var treeObj = $.fn.zTree.getZTreeObj("DepartmentTreeP");
+            treeObj.hideNode(treeObj.getNodeByParam("id", hiddenId, null));
+        })
+    })
+
+</script>

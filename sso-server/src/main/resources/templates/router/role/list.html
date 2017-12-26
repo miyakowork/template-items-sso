@@ -1,0 +1,134 @@
+<!--suppress HtmlUnknownAttribute -->
+<div class="row router-container">
+    <div class="col-md-3" style="margin-top: 10px;">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <input type="hidden" name="selectedModule">
+                    <select class="form-control" title="系统模块选择" id="select-modules">
+                    </select>
+                </div>
+                <div class="panel-body" style="min-height: 300px;">
+                     <span class="pull-right resetTree" style="cursor: pointer;" id="refreshRoleTree"
+                           title="重置角色勾选状态"><i
+                             class="fa fa-undo"></i> </span>
+                    <ul id="roleTree" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div id="role-toolbar" class="form-inline">
+            <div th:replace="fragment/control::operation(role,false)"></div>
+        </div>
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table id="role-table">
+                <thead>
+                <tr>
+                    <th data-checkbox="true"></th>
+
+                    <th data-field="id"
+                        data-visible="false"
+                        data-width="150"
+                        data-title="ID"
+                        data-align="center"></th>
+
+                    <th data-field="name"
+                        data-sortable="true"
+                        data-search-formatter="false"
+                        data-filter-control="input"
+                        data-filter-control-placeholder="输入角色标识"
+                        data-title="角色标识"
+                        data-align="center"
+                        data-width="150"></th>
+
+                    <th data-field="cnName"
+                        data-sort-name="cn_name"
+                        data-sortable="true"
+                        data-filter-control="input"
+                        data-filter-control-placeholder="输入角色名"
+                        data-search-formatter="false"
+                        data-title="角色名"
+                        data-align="center"
+                        data-width="150"></th>
+
+                    <th data-field="parentName"
+                        data-sortable="true"
+                        data-sort-name="parent_name"
+                        data-title="上级角色"
+                        data-formatter="parentNameFormatter"
+                        data-align="center"
+                        data-width="150"></th>
+
+                    <th data-field="parentId"
+                        data-visible="false"
+                        data-title="上级ID"
+                        data-align="center"
+                    ></th>
+
+                    <th data-field="systemModuleName"
+                        data-sort-name="SYSTEM_CODE"
+                        data-width="150"
+                        data-title="所属系统模块"
+                        data-align="center"></th>
+
+                    <th data-field="enabled"
+                        data-width="150"
+                        data-title="是否可用"
+                        data-formatter="enabledFormatter"
+                        data-filter-control="select"
+                        data-filter-data="url:/oauth2/common/select"
+                        data-align="center"></th>
+
+                    <th data-field="updateDate"
+                        data-sort-name="update_date"
+                        data-sortable="true"
+                        data-title="修改时间"
+                        data-formatter="date_formatter"
+                        data-visible="false"
+                        data-align="center"></th>
+
+
+                    <th data-field="createDate"
+                        data-sort-name="create_date"
+                        data-sortable="true"
+                        data-visible="false"
+                        data-formatter="date_formatter"
+                        data-title="创建日期"
+                        data-align="center"></th>
+
+                    <th data-field="updateName"
+                        data-sort-name="update_name"
+                        data-title="修改人"
+                        data-visible="false"
+                        data-align="center"></th>
+
+                    <th data-field="createName"
+                        data-sort-name="create_name"
+                        data-title="创建人"
+                        data-visible="false"
+                        data-align="center"></th>
+
+                    <th data-field="orderIndex"
+                        data-sort-name="ORDER_INDEX"
+                        data-sortable="true"
+                        data-title="排序"
+                        data-align="center"></th>
+
+                    <th data-field="remark"
+                        data-sortable="true"
+                        data-title="备注"
+                        data-visible="false"
+                        data-align="center"></th>
+                </tr>
+                </thead>
+            </table>
+        </article>
+    </div>
+</div>
+
+<div id="role_dialog">
+    <div th:replace="router/role/add::addRole"></div>
+    <div th:replace="router/role/edit::editRole"></div>
+</div>
+<script src="/static/js/oauth2/role.js"></script>

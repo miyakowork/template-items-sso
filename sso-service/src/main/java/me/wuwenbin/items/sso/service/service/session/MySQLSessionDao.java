@@ -5,7 +5,6 @@ import me.wuwenbin.items.sso.dao.repository.ShiroSessionRepository;
 import me.wuwenbin.items.sso.service.constant.ShiroConsts;
 import me.wuwenbin.items.sso.service.support.util.HttpUtils;
 import me.wuwenbin.items.sso.service.support.util.SerializableUtils;
-import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
@@ -15,20 +14,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * session持久化存储
- * Created by Wuwenbin on 2017/7/19.
+ *
+ * @author Wuwenbin
+ * @date 2017/7/19
  */
 @Component
 public class MySQLSessionDao extends CachingSessionDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(MySQLSessionDao.class);
 
-    private ShiroSessionRepository shiroSessionRepository = RepositoryFactory.get(ShiroSessionRepository.class);
+    @Resource
+    private ShiroSessionRepository shiroSessionRepository;
 
     @Override
     protected void doUpdate(Session session) {

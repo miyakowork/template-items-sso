@@ -1,0 +1,36 @@
+<!--suppress HtmlUnknownAttribute -->
+<link type="text/css" rel="stylesheet" media="screen" href="/static/js/plugin/jquery-grid/css/jquery.treegrid.css"/>
+<!--suppress HtmlUnknownAttribute -->
+<div class="row router-container">
+    <div class="col-md-3" style="margin-top: 10px;">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <input type="hidden" name="selectedModuleMenu">
+                    <select class="form-control" title="系统模块选择" id="select-modules-menu">
+                    </select>
+                </div>
+                <div class="panel-body" style="min-height: 300px;">
+                     <span class="pull-right resetTree" style="cursor: pointer;" id="refreshRoleTreeMenu"
+                           title="重置角色勾选状态"><i
+                             class="fa fa-undo"></i> </span>
+                    <ul id="roleTreeMenu" class="ztree"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div id="menu-toolbar" class="form-inline">
+            <div th:replace="fragment/control::operation(menu,true)"></div>
+        </div>
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table id="menu-table"></table>
+        </article>
+    </div>
+</div>
+
+<div id="menu_dialog">
+    <div th:replace="router/menu/add::addMenu"></div>
+    <div th:replace="router/menu/edit::editMenu"></div>
+</div>
+<script type="text/javascript" src="/static/js/oauth2/menu.js"></script>

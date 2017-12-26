@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * created by Wuwenbin on 2017/9/27 at 11:30
+ * @author wuwenbin
  */
 @Configuration
 public class ShiroCacheConfig {

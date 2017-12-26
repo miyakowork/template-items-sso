@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Template Repository的相关配置
  * created by Wuwenbin on 2017/12/22 at 9:35
+ * @author wuwenbin
  */
 @Configuration
 public class RepositoryConfig {

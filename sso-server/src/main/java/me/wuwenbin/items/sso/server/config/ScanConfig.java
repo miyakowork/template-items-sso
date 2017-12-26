@@ -1,11 +1,9 @@
 package me.wuwenbin.items.sso.server.config;
 
 import me.wuwenbin.modules.jpa.factory.DaoFactory;
-import me.wuwenbin.modules.scanner.ResourceScanListener;
 import me.wuwenbin.modules.scanner.config.ScannerConfig;
 import me.wuwenbin.modules.scanner.enumerate.ScannerType;
 import me.wuwenbin.modules.scanner.persistence.JpaScannerRepository;
-import me.wuwenbin.modules.scanner.persistence.ScannerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,8 +29,8 @@ public class ScanConfig {
         return new JpaScannerRepository(daoFactory);
     }
 
-    @Bean
-    public ResourceScanListener resourceScanListener(ScannerConfig config, ScannerRepository scannerRepository) {
-        return new ResourceScanListener(config, scannerRepository);
-    }
+//    @Bean
+//    public ResourceScanListener resourceScanListener(ScannerConfig config, ScannerRepository scannerRepository) {
+//        return new ResourceScanListener(config, scannerRepository);
+//    }
 }

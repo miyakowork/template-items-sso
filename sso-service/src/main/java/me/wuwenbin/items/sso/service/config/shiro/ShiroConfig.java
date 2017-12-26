@@ -18,7 +18,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Shiro权限配置
- * Created by wuwenbin on 2017/5/22.
+ *
+ * @author wuwenbin
+ * @date 2017/5/22
  */
 @Configuration
 public class ShiroConfig implements CacheConsts {

@@ -1,0 +1,41 @@
+<script type="text/javascript" src="../static/js/libs/echarts.common.min.js"></script>
+<div class="row">
+    <div class="col-md-3" style="margin-top: 10px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-building"></i> 用户部门
+            </div>
+            <div class="panel-body" style="min-height: 300px;">
+                <ul id="DepartmentTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9" id="chart" style="margin-top: 10px;">
+
+        <div class="row form-inline">
+            <fieldset>
+                <div class="form-group">
+                    <label for="endTime" class="inline">查询截止日期：</label>
+                    <input id="endTime" class="layui-input form-control" readonly style="width: 200px;">
+                </div>&nbsp;-
+                <div class="form-group">
+                    <label for="dateNumSelector">查询周期天数：</label>
+                    <select class="form-control" id="dateNumSelector" onchange="load_loginSumChart()">
+                        <option value=7>7天</option>
+                        <option value=15>15天</option>
+                        <option value=30>30天</option>
+                    </select>
+                </div>&nbsp;
+                <div class="form-group">
+                    <button id="preDate" class="btn btn-default btn-sm" style="margin-left: 120px">上一周期</button>
+                    <button id="nextDate" class="btn btn-default btn-sm">下一周期</button>
+                </div>
+            </fieldset>
+        </div>
+        <!--chart容器-->
+        <div id="chartContainer" style="height: 400px;margin-top: 30px"></div>
+
+    </div>
+</div>
+
+<script src="/static/js/oauth2/logsum.js"></script>

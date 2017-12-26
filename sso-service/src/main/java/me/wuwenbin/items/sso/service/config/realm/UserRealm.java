@@ -9,7 +9,6 @@ import me.wuwenbin.items.sso.service.constant.ShiroConsts;
 import me.wuwenbin.items.sso.service.service.PermissionService;
 import me.wuwenbin.items.sso.service.service.RoleService;
 import me.wuwenbin.items.sso.service.support.util.HttpUtils;
-import me.wuwenbin.items.sso.service.support.util.SpringUtils;
 import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -17,8 +16,9 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -27,12 +27,14 @@ import java.util.List;
  *
  * @author wuwenbin
  */
-@Component
 public class UserRealm extends AuthorizingRealm implements CacheConsts {
 
-    private UserRepository userRepository = RepositoryFactory.get(UserRepository.class);
-    private RoleService roleService = SpringUtils.getBean(RoleService.class);
-    private PermissionService permissionService = SpringUtils.getBean(PermissionService.class);
+    @Resource
+    private UserRepository userRepository;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private PermissionService permissionService;
 
 
     /**

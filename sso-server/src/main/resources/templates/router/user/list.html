@@ -1,0 +1,521 @@
+<div id="user_dialog" class="hidden">
+    <!--添加弹出的窗口-->
+    <div id="add_user_dialog">
+        <form class="form-horizontal" @submit.prevent="handleSubmit_add" method="post" name="userAddForm">
+            <fieldset>
+                <!--名称-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.usernameError }">
+                        <label class="col-md-3 control-label">用户账号</label>
+                        <div class="col-md-9">
+                            <input class="form-control"
+                                   v-model="user1.username" placeholder="输入用户账号">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.usernameError }">
+                                {{error.usernameErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 姓名-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.cnameError }">
+                        <label class="col-md-3 control-label">用户昵称</label>
+                        <div class="col-md-9">
+                            <input class="form-control"
+                                   v-model="user1.cname" placeholder="用户中文名">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.cnameError }">
+                                {{error.cnameErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 密码-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.passwordError }">
+                        <label class="col-md-3 control-label">账号密码</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="password" placeholder="输入密码"
+                                   v-model="user1.password">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.passwordError }">
+                                {{error.passwordErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- email-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.emailError }">
+                        <label class="col-md-3 control-label">电子邮箱</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="电子邮箱"
+                                   v-model="user1.email">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.emailError  }">
+                                {{error.emailErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 电话-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.mobileError }">
+                        <label class="col-md-3 control-label">电话</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="输入电话号码"
+                                   v-model="user1.mobile">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.mobileError }">
+                                {{error.mobileErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--排序-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.orderError }">
+                        <label class="col-md-3 control-label">排序</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="排序" type="number"
+                                   v-model="user1.orderIndex">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.orderError }">
+                                {{error.orderErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 部门ID-->
+                <div class="col-md-6 hidden">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">部门ID</label>
+                        <div class="col-md-9">
+                            <input class="form-control" readonly
+                                   v-model="user1.deptId">
+                        </div>
+                    </div>
+                </div>
+                <!--所属部门-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.deptIdError }">
+                        <label class="col-md-3 control-label">所属部门</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input id="pNameByTreeAdd" class="form-control" placeholder="所属部门"
+                                       v-model="user1.departmentName"
+                                       readonly>
+                                <div class="input-group-btn">
+                                    <a id="addGetPId" href="javascript:void(0);" class="btn btn-default"><i
+                                            class="fa fa-check-square-o"></i> 获取</a>
+                                </div>
+                            </div>
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.deptIdError }">
+                                {{error.deptIdErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--获取角色-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.defaultRoleIdError }">
+                        <label class="col-md-3 control-label">默认角色</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="默认角色"
+                                       v-model="user1.roleName"
+                                       readonly>
+                                <div class="input-group-btn">
+                                    <a id="addGetRole" href="javascript:void(0);" class="btn btn-default"><i
+                                            class="fa fa-check-square-o"></i> 获取</a>
+                                </div>
+                            </div>
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.defaultRoleIdError }">
+                                {{error.defaultRoleIdErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 hidden">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">默认角色ID</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="默认角色ID"
+                                   v-model="user1.defaultRoleId"
+                                   readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!--是否可用-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">是否可用</label>
+                        <div class="col-md-9">
+                            <label class="radio radio-inline">
+                                <input type="radio" v-model="user1.enabled" v-bind:value="true"
+                                       class="radiobox style-0"/>
+                                <span>是</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" v-model="user1.enabled" v-bind:value="false"
+                                       class="radiobox style-0"/>
+                                <span>否</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">备注</label>
+                        <div class="col-md-9">
+                            <input id="userRemark" class="form-control" placeholder="备注"
+                                   v-model="user1.remark">
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+            <button id="userAdd" type="submit" class="hidden"></button>
+        </form>
+    </div>
+
+    <!--编辑弹出的窗口-->
+    <div id="edit_user_dialog">
+        <form class="form-horizontal" @submit.prevent="handleSubmit_edit" method="post">
+            <fieldset>
+                <!--名称-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.usernameError }">
+                        <label class="col-md-3 control-label">用户名</label>
+                        <div class="col-md-9">
+                            <input class="form-control"
+                                   v-model="user1.username" readonly>
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.usernameError }">
+                                {{error.usernameErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 姓名-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.cnameError }">
+                        <label class="col-md-3 control-label">姓名</label>
+                        <div class="col-md-9">
+                            <input class="form-control"
+                                   v-model="user1.cname">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.cnameError }">
+                                {{error.cnameErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- email-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.emailError }">
+                        <label class="col-md-3 control-label">email</label>
+                        <div class="col-md-9">
+                            <input class="form-control" t v-model="user1.email">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.emailError  }">
+                                {{error.emailErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 电话-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.mobileError }">
+                        <label class="col-md-3 control-label">电话</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="输入电话号码"
+                                   v-model="user1.mobile">
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.mobileError }">
+                                {{error.mobileErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--排序-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">排序</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="排序" type="number"
+                                   v-model="user1.orderIndex">
+                            <div class="note-error margin-bottom-0">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 部门ID-->
+                <div class="col-md-6 hidden">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">部门ID</label>
+                        <div class="col-md-9">
+                            <input class="form-control" readonly
+                                   v-model="user1.deptId"/>
+                        </div>
+                    </div>
+                </div>
+                <!--所属部门-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.deptIdError }">
+                        <label class="col-md-3 control-label">所属部门</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input id="pNameByTreeEdit" class="form-control" placeholder="所属部门"
+                                       v-model="user1.departmentName"
+                                       readonly>
+                                <div class="input-group-btn">
+                                    <a id="editGetPId" href="javascript:void(0);" class="btn btn-default"><i
+                                            class="fa fa-check-square-o"></i> 获取</a>
+                                </div>
+                            </div>
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.deptIdError }">
+                                {{error.deptIdErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--获取角色-->
+                <div class="col-md-6">
+                    <div class="form-group" v-bind:class="{ 'has-error': error.defaultRoleIdError }">
+                        <label class="col-md-3 control-label">默认角色</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input id="pRoleByTree1" class="form-control" placeholder="默认角色"
+                                       v-model="user1.roleName"
+                                       readonly>
+                                <div class="input-group-btn">
+                                    <a id="editGetRole" href="javascript:void(0);" class="btn btn-default"><i
+                                            class="fa fa-check-square-o"></i> 获取</a>
+                                </div>
+                            </div>
+                            <div class="note-error margin-bottom-0"
+                                 v-bind:class="{ 'has-error text-danger margin-top-10': error.defaultRoleIdError }">
+                                {{error.defaultRoleIdErrorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--是否可用-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">是否可用</label>
+                        <div class="col-md-9">
+                            <label class="radio radio-inline">
+                                <input type="radio" v-model="user1.enabled"
+                                       class="radiobox style-0"
+                                       v-bind:value="true" checked>
+                                <span>是</span>
+                            </label>
+                            <label class="radio radio-inline">
+                                <input type="radio" v-model="user1.enabled"
+                                       class="radiobox style-0"
+                                       v-bind:value="false" checked>
+                                <span>否</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">备注</label>
+                        <div class="col-md-9">
+                            <input class="form-control" placeholder="备注"
+                                   v-model="user1.remark">
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+            <button id="userEdit" type="submit" class="hidden"></button>
+        </form>
+    </div>
+
+    <div id="edit_password_dialog">
+        <form class="form-horizontal" @submit.prevent="handleSubmit_edit_pwd" method="post">
+            <fieldset>
+                <input type="hidden" v-model="userPwdForce.id"/>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">用户账号</label>
+                    <div class="col-md-9">
+                        <input class="form-control" readonly
+                               v-model="userPwdForce.username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">新密码</label>
+                    <div class="col-md-9">
+                        <input class="form-control"
+                               v-model="userPwdForce.newPwd" placeholder="输入新密码" type="password">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">确认新密码</label>
+                    <div class="col-md-9">
+                        <input class="form-control"
+                               v-model="userPwdForce.confirmPwd" placeholder="输入和上面一致的新密码" type="password">
+
+                    </div>
+                </div>
+            </fieldset>
+            <button id="userPwdEdit" type="submit" class="hidden"></button>
+        </form>
+    </div>
+
+    <!--用户组配置-->
+    <div id="user_role_group">
+        <form class="form-horizontal" @submit.prevent="handleSubmit_group" method="post">
+            <fieldset>
+                <div class="form-group">
+                    <input id="editUserId" type="hidden" name="cUserId">
+                    <div class="col-md-12" id="allRoles">
+
+                    </div>
+                </div>
+            </fieldset>
+            <button id="groupAdd" type="submit" class="hidden"></button>
+        </form>
+    </div>
+</div>
+<!-- row -->
+<div class="row">
+    <div id="user-toolbar" class="form-inline">
+        <a href="javascript:void(0);" id="add_dialog_link" class="btn btn-primary btn-sm"> <i
+                class="fa fa-plus-square-o"></i> 添加</a>
+        <a href="javascript:void(0);" id="edit_dialog_link" class="btn btn-warning btn-sm"><i
+                class="fa fa-pencil-square "></i> 编辑</a>
+        <a href="javascript:void(0);" id="edit_userRole_group" class="btn btn-info btn-sm"><i
+                class="fa fa-pencil-square "></i> 编辑用户组</a>
+        <a href="javascript:void(0);" id="edit_password" class="btn btn-success btn-sm"><i class="fa fa-edit "></i> 修改密码</a>
+        <a id="delete-user" class="btn btn-danger btn-sm"
+           rel="tooltip" data-placement="bottom"
+           data-reset-msg="您确定要禁用用户？"><i class="fa fa-minus-square-o"></i> 禁用
+        </a>&nbsp;
+        <label id="user-search-control" class="checkbox-inline">
+            <input type="checkbox" class="checkbox style-3">
+            <span>显示搜索控件</span>
+        </label>
+    </div>
+    <!-- NEW WIDGET START -->
+    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <table id="user-table">
+            <thead>
+            <tr>
+                <th data-checkbox="true"></th>
+
+                <th data-field="id"
+                    data-sortable="true"
+                    data-visible="false"
+                    data-searchable="true"
+                    data-title="ID"
+                    data-align="center"></th>
+
+                <th data-field="username"
+                    data-sortable="true"
+                    data-searchable="true"
+                    data-title="用户名"
+                    data-filter-control="input"
+                    data-filter-control-placeholder="输入用户名"
+                    data-align="center"></th>
+
+                <th data-field="departmentName"
+                    data-sortable="true"
+                    data-searchable="true"
+                    data-title="所属部门"
+                    data-align="center"></th>
+
+                <th data-field="deptId"
+                    data-sortable="false"
+                    data-visible="false"
+                    data-searchable="true"
+                    data-title="部门ID"
+                    data-align="center"></th>
+
+                <th data-field="roleName"
+                    data-sort-name="default_role_id"
+                    data-title="默认角色"
+                    data-align="center"></th>
+
+                <th data-field="defaultRoleId"
+                    data-sort-name="default_role_id"
+                    data-visible="false"
+                    data-title="默认角色ID"
+                    data-align="center"></th>
+
+                <th data-field="cname"
+                    data-sort-name="cname"
+                    data-sortable="true"
+                    data-title="姓名"
+                    data-filter-control="input"
+                    data-filter-control-placeholder="输入姓名"
+                    data-align="center"></th>
+
+                <th data-field="password"
+                    data-title="密码"
+                    data-visible="false"
+                    data-align="center"></th>
+
+                <th data-field="mobile"
+                    data-title="电话"
+                    data-align="center"></th>
+
+                <th data-field="email"
+                    data-title="email"
+                    data-align="center"></th>
+
+                <th data-field="updateDate"
+                    data-sort-name="update_date"
+                    data-formatter="date_formatter"
+                    data-visible="false"
+                    data-title="更新用户时间"
+                    data-align="center"></th>
+
+                <th data-field="createDate"
+                    data-sort-name="create_date"
+                    data-formatter="date_formatter"
+                    data-filter-control="datepicker"
+                    data-laydate-options="{type: 'datetime',placeholder:'在此之后的创建的用户'}"
+                    data-filter-control-placeholder="在此之后创建用户"
+                    data-title="创建用户时间"
+                    data-align="center"></th>
+
+                <th data-field="orderIndex"
+                    data-sort-name="order_index"
+                    data-sortable="true"
+                    data-title="排序"
+                    data-align="center"></th>
+
+                <th data-field="enabled"
+                    data-sortable="true"
+                    data-formatter="enabledFormatter"
+                    data-title="状态"
+                    data-filter-data="url:/oauth2/common/select"
+                    data-filter-control="select"
+                    data-align="center"></th>
+            </tr>
+            </thead>
+        </table>
+    </article>
+    <!-- WIDGET END -->
+
+</div>
+
+<script src="/static/js/oauth2/user.js"></script>

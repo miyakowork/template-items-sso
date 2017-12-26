@@ -1,0 +1,226 @@
+<!DOCTYPE html >
+<html lang="zh_CN">
+<head>
+    <meta charset="utf-8">
+    <title>权限管理系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 基础核心样式，请勿改变引用顺序 -->
+    <link rel="stylesheet" type="text/css" href="/static/js/plugin/layui/v2/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/font-awesome.min.css">
+    <!-- SmartAdmin Styles : 注意！不要改变引用顺序-->
+    <link rel="stylesheet" type="text/css" href="/static/css/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/smartadmin-skins.min.css">
+
+    <!--zTree的样式-->
+    <link rel="stylesheet" type="text/css" href="/static/js/plugin/bootstrap-ztree/css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" type="text/css" href="/static/js/plugin/bootstrap-ztree/css/font-awesome-zTree.css">
+
+    <!--6种主题样式-->
+    <link rel="stylesheet" type="text/css" href="/static/css/settings.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/template-framework.css">
+
+    <!--BootstrapTable以及相关插件的样式-->
+    <link rel="stylesheet" type="text/css" href="/static/js/plugin/bootstrap-table/bootstrap-table.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="/static/js/plugin/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.css"/>
+
+    <!-- #logo/图标 -->
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+</head>
+
+<body class="smart-style-0 smart-admin fixed-header fixed-ribbon fixed-page-footer fixed-navigation">
+<!-- #页面头 -->
+<header id="header">
+    <div id="logo-group">
+        <!-- PLACE YOUR LOGO HERE -->
+        <a href="/"><span id="logo">
+    <img src="/static/img/favicon.ico" style="width: 30px ;margin-bottom: 5px;"/> &nbsp;权限管理认证中心
+    </span></a>
+        <!-- END LOGO PLACEHOLDER -->
+    </div>
+
+    <!-- header右侧菜单部分 -->
+    <div class="pull-right">
+
+        <!-- 折叠菜单按钮 -->
+        <div id="hide-menu" class="btn-header pull-right">
+            <span>
+                <a href="javascript:void(0);" data-action="toggleMenu" title="折叠左侧菜单">
+                    <i class="fa fa-reorder"></i>
+                </a>
+            </span>
+        </div>
+        <!-- END 折叠菜单按钮-->
+
+        <ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
+            <li class="">
+                <a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown">
+                    <img src="/static/img/avatars/sunny.png" alt="John Doe" class="online"/>
+                </a>
+                <ul class="dropdown-menu pull-right padding-top-0 padding-bottom-0">
+                    <li>
+                        <a href="javascript:void(0);" class="padding-10"> <i
+                                class="fa fa-user"></i> <strong>个人信息</strong></a>
+                    </li>
+                    <li class="divider margin-top-0 margin-bottom-0"></li>
+                    <li>
+                        <a href="javascript:void(0);" class="padding-10"
+                           data-action="toggleShortcut"><i class="fa fa-list-ul"></i> <strong>切换菜单模块</strong></a>
+                    </li>
+                    <li class="divider margin-top-0 margin-bottom-0"></li>
+                    <li>
+                        <a href="/logout" class="padding-10" data-action="userLogout"
+                           data-logout-msg="<h1>确定即将退出当前账号，是否继续？</h1>">
+                            <i class="fa fa-sign-out fa-lg"></i> <strong>注销登录</strong></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- 退出按钮 -->
+        <div id="logout" class="btn-header transparent pull-right">
+            <span>
+                <a href="/logout" title="注销" data-action="userLogout" data-logout-msg="<br/><h1>即将退出登录帐号，是否继续?</h1>">
+                    <i class="fa fa-sign-out"></i>
+                </a>
+            </span>
+        </div>
+        <!-- END 退出按钮 -->
+
+        <!--  全屏按钮 -->
+        <div id="fullscreen" class="btn-header transparent pull-right">
+         <span>
+             <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen">
+                 <i class="fa fa-arrows-alt"></i>
+             </a>
+         </span>
+        </div>
+        <!-- END 全屏按钮  -->
+
+    </div>
+
+    <!-- END header右侧菜单部分 -->
+    <div class="hidden-xs pull-left padding-top-15">
+        <span class="label font-sm" id="tp-date"></span>
+    </div>
+
+</header>
+<!-- END 页面头 -->
+
+<!-- #左侧导航栏 -->
+<div id="left-panel">
+    <aside>
+
+        <!-- 用户信息  -->
+        <div class="login-info">
+				<span>
+					<a id="show-shortcut" class="cursor-pointer">
+						<img src="/static/img/avatars/sunny.png"/>
+						<span>超级管理员</span>
+					</a>
+                     <a @click.prevent.stop="changeRole" class="pull-right margin-top-10 cursor-pointer"
+                        id="changeRole">
+                       <i class="fa fa-user-o fa-lg"></i>
+                    </a>
+                    <a @click.prevent.stop="showModule" class="pull-right margin-top-10 cursor-pointer margin-right-5"
+                       id="changeMenuModule">
+                       <i class="fa fa-cube fa-lg"></i>
+                    </a>
+				</span>
+        </div>
+        <!-- END  用户信息 -->
+        <nav id="menu-app">
+            <menu-item :menus="menuList"></menu-item>
+        </nav>
+
+    </aside>
+</div>
+<!-- END 左侧导航栏 -->
+
+<!-- #主显示内容区域 -->
+<div id="main" role="main">
+
+    <!-- 主内容显示区域的顶部条显示内容 -->
+    <div id="ribbon">
+        <span class="ribbon-button-alignment">
+            <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" rel="tooltip" data-placement="bottom"
+                  data-reset-msg="<h1>确定即将要清除本地存储，确定继续？</h1>">
+                <i class="fa fa-refresh"></i>
+            </span>
+        </span>
+        <!-- 顶部面包导航，内容由js自动生成 -->
+        <ol class="breadcrumb"></ol>
+        <!-- END 顶部面包导航 -->
+    </div>
+    <!-- END 主内容显示区域的顶部条显示内容 -->
+
+    <!-- #页面内容显示区域 ，也是由js控制路由显示-->
+    <div id="content" class="animated"></div>
+    <!-- END 主内容显示区域的顶部条显示内容 -->
+
+</div>
+<!-- END 主显示内容区域 -->
+
+<!-- #PAGE FOOTER -->
+<div class="page-footer">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <span>欢迎您登录通用(权限)管理基础平台 <span class="hidden-xs"> - Powered By Template</span> © at 2016</span>
+        </div>
+
+        <div class="col-xs-6 col-sm-6 text-right hidden-xs">
+            <div class="inline-block">
+                <i class="hidden-mobile">登录系统时间：<i class="fa fa-clock-o"></i>
+                    <strong id="login-dt"> &nbsp;</strong> </i>
+                <!-- end btn-group-->
+            </div>
+            <!-- end div-->
+        </div>
+        <!-- end col -->
+    </div>
+    <!-- end row -->
+</div>
+<!-- END FOOTER -->
+
+<!-- 切换菜单模块的显示区域，由显示用户头像那一块点击而下滑而出的div块-->
+<div id="shortcut">
+    <menu-module :modules="modules"></menu-module>
+</div>
+<!-- END 切换菜单模块的显示区域  -->
+<!-- 脚本区域 -->
+<script src="/static/js/libs/jquery-2.1.1.min.js"></script>
+<script src="/static/js/app.config.js"></script>
+<script src="/static/js/bootstrap/bootstrap.min.js"></script>
+<script src="/static/js/libs/jquery-ui-1.10.3.min.js"></script>
+<script src="/static/js/notification/SmartNotification.min.js"></script>
+<script src="/static/js/smartwidgets/jarvis.widget.min.js"></script>
+<script src="/static/js/libs/vue/vue.js"></script>
+<script src="/static/js/libs/vue/axios.min.js"></script>
+<script src="/static/js/es6-promise.auto.min.js"></script>
+<script src="/static/js/libs/vue/vuerify.min.js"></script>
+<script src="/static/js/libs/vue/url-search-params.min.js"></script>
+<script src="/static/js/plugin/layui/v2/layui.all.js"></script>
+<script src="/static/js/plugin/bootstrap-ztree/js/jquery.ztree.all.min.js"></script>
+<script src="/static/js/plugin/bootstrap-table/bootstrap-table.js"></script>
+<script src="/static/js/plugin/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/js/plugin/bootstrap-table/extensions/filter-control/bootstrap-table-filter-control.js"></script>
+<script src="/static/js/plugin/bootstrap-table/extensions/multiple-sort/bootstrap-table-multiple-sort.js"></script>
+<!-- browser msie issue fix -->
+<script src="/static/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+<!--[if IE 8]>
+<h1>您的浏览器已过时，请下载最新的chrome浏览器以享受最完美的体验！</h1>
+<![endif]-->
+<!-- 项目app核心js -->
+<script src="/static/js/app.js"></script>
+<script src="/static/js/template.theme.js"></script>
+<script src="/static/js/template.global.js"></script>
+<script src="/static/js/template.vue.js"></script>
+<script src="/static/js/template.index.js"></script>
+<!--# END 脚本区域-->
+</body>
+</html>

@@ -1,0 +1,60 @@
+<div id="department">
+    <div class="row">
+        <div class="col-md-3 margin-top-10">
+            <panel>
+                <span slot="heading">
+                    <span><i class="fa fa-building"></i> 部门树</span>
+                    <span class="pull-right resetTree cursor-pointer" title="重置部门勾选状态" @click.prevent="resetCheck"
+                          @mouseenter="showTips($event)" @mouseout="hideTips($event)">
+                        <i class="fa fa-undo"></i>
+                    </span>
+                </span>
+                <ul slot="body" id="DepartmentTree" class="ztree"></ul>
+            </panel>
+        </div>
+        <div class="col-md-9">
+            <toolbar name="department" :show-delete="showDel" :functions="functions"></toolbar>
+            <section class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <bootstrap-table name="department" :options="tableOptions"></bootstrap-table>
+            </section>
+        </div>
+    </div>
+
+    <section id="addDepartment">
+        <form class="form-horizontal" @submit.prevent="handleAddSubmit" method="post">
+            <form-input label="部门名称" placeholder="部门名称" v-model="model.name" :message="errors.name"></form-input>
+            <form-input label="上级部门" placeholder="上级部门" v-model="model.parentName" :message="errors.parentId"
+                        readonly="true"></form-input>
+            <form-input label="排序" placeholder="输入排序的顺序编码" v-model="model.orderIndex"
+                        :message="errors.orderIndex"></form-input>
+            <form-radio label="是否可用">
+                <input type="radio" slot="check" v-model="model.enabled" class="radiobox style-0" v-bind:value="true">
+                <input type="radio" slot="nocheck" v-model="model.enabled" class="radiobox style-0"
+                       v-bind:value="false">
+            </form-radio>
+            <form-input label="备注" placeholder="备注信息（选填）" v-model="model.remark"></form-input>
+            <button id="departmentAdd" type="submit" class="hidden"></button>
+        </form>
+    </section>
+
+    <section id="editDepartment">
+        <form class="form-horizontal" @submit.prevent="handleEditSubmit" method="post">
+            <form-input label="部门名称" placeholder="部门名称" v-model="model.name" :message="errors.name"></form-input>
+            <form-fetch label="上级部门ID" placeholder="上级部门ID" v-model="model.parentId" :message="errors.parentId"
+                        :fetch="functions.fetch"
+                        readonly="true"></form-fetch>
+            <form-input label="上级部门名称" placeholder="上级部门名称" v-model="model.parentName" :message="errors.parentName"
+                        readonly="true"></form-input>
+            <form-input label="排序" placeholder="输入排序的顺序编码" v-model="model.orderIndex"
+                        :message="errors.orderIndex"></form-input>
+            <form-radio label="是否可用">
+                <input type="radio" slot="check" v-model="model.enabled" class="radiobox style-0" v-bind:value="true">
+                <input type="radio" slot="nocheck" v-model="model.enabled" class="radiobox style-0"
+                       v-bind:value="false">
+            </form-radio>
+            <form-input label="备注" placeholder="备注信息（选填）" v-model="model.remark"></form-input>
+            <button id="departmentEdit" type="submit" class="hidden"></button>
+        </form>
+    </section>
+</div>
+<script src="/static/js/oauth2/department.js"></script>

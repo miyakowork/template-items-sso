@@ -1,0 +1,47 @@
+<div id="operation-privilege-type">
+    <div class="row">
+        <toolbar name="operationPrivilegeType" :show-delete="showDel" :functions="functions"></toolbar>
+        <section class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <bootstrap-table name="operationPrivilegeType" :options="tableOptions"></bootstrap-table>
+        </section>
+    </div>
+
+    <section id="opt_privilege_add_dialog">
+        <form class="form-horizontal" @submit.prevent="handleSubmit_add" method="post">
+            <form-input label="名称" placeholder="操作级权限类型名称" v-model="model.name" :message="errors.name"></form-input>
+
+            <form-radio label="是否可用">
+                <input type="radio" slot="check" v-model="model.enabled" class="radiobox style-0" v-bind:value="true">
+                <input type="radio" slot="nocheck" v-model="model.enabled" class="radiobox style-0"
+                       v-bind:value="false">
+            </form-radio>
+
+            <form-input label="排序" placeholder="输入排序的顺序编码" v-model="model.orderIndex"
+                        :message="errors.orderIndex"></form-input>
+
+            <form-input label="备注" placeholder="备注信息（选填）" v-model="model.remark"></form-input>
+            <button id="doOptAdd" type="submit" class="hidden"></button>
+        </form>
+    </section>
+
+    <section id="opt_privilege_edit_dialog">
+        <form class="form-horizontal" @submit.prevent="handleSubmit_edit" method="post">
+            <form-input label="名称" placeholder="操作级权限类型名称" v-model="model.name" :message="errors.name"></form-input>
+
+            <form-radio label="是否可用">
+                <input type="radio" slot="check" v-model="model.enabled" class="radiobox style-0" v-bind:value="true">
+                <input type="radio" slot="nocheck" v-model="model.enabled" class="radiobox style-0"
+                       v-bind:value="false">
+            </form-radio>
+
+            <form-input label="排序" placeholder="输入排序的顺序编码" v-model="model.orderIndex"
+                        :message="errors.orderIndex"></form-input>
+
+            <form-input label="备注" placeholder="备注信息（选填）" v-model="model.remark"></form-input>
+            <button id="doOptEdit" type="submit" class="hidden"></button>
+        </form>
+    </section>
+</div>
+
+<script src="/static/js/oauth2/operation_privilege_type.js"></script>
+
