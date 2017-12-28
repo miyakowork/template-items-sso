@@ -75,4 +75,12 @@ public class Ztree implements Serializable {
     public void setisHidden(boolean isHidden) {
         this.isHidden = isHidden;
     }
+
+    public String getpId() {
+        return pId;
+    }
+
+    public void setpId(String pId) {
+        this.pId = pId;
+    }
 }

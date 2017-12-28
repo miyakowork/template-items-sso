@@ -21,11 +21,11 @@ public interface ResourceModuleRepository extends IPageAndSortRepository<Resourc
     /**
      * 根据可用状态和系统代码查询可用的资源模块
      *
-     * @param systemModuleCode
+     * @param systemCode
      * @param enabled
      * @return
      */
-    List<ResourceModule> findBySystemModuleCodeAndEnabled(String systemModuleCode, boolean enabled);
+    List<ResourceModule> findBySystemCodeAndEnabled(String systemCode, boolean enabled);
 
     /**
      * 查找所有可用的资源模块

@@ -2,6 +2,8 @@ package me.wuwenbin.items.sso.dao.entity;
 
 import lombok.*;
 import me.wuwenbin.items.sso.dao.entity.base.DataEntity;
+import me.wuwenbin.items.sso.dao.repository.DepartmentRepository;
+import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
 import me.wuwenbin.modules.sql.annotation.SQLColumn;
 import me.wuwenbin.modules.sql.annotation.SQLTable;
 
@@ -9,7 +11,6 @@ import java.time.LocalDateTime;
 
 
 /**
- *
  * @author Wuwenbin
  * @date 2017/7/12/012
  * 部门表
@@ -40,4 +41,28 @@ public class Department extends DataEntity<Long> {
         return d;
     }
 
+    @Override
+    public String nodeId() {
+        return getId().toString();
+    }
+
+    @Override
+    public String nodePId() {
+        return getParentId().toString();
+    }
+
+    @Override
+    public String nodeName() {
+        return getName();
+    }
+
+    @Override
+    public boolean nodeOpen() {
+        return getParentId() == 0;
+    }
+
+    @Override
+    public boolean nodeIsParent() {
+        return RepositoryFactory.get(DepartmentRepository.class).countByParentId(getId()) != 0;
+    }
 }

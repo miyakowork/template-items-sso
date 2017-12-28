@@ -2,6 +2,7 @@ package me.wuwenbin.items.sso.dao.constant;
 
 /**
  * created by Wuwenbin on 2017/12/23 at 17:40
+ * @author wuwenbin
  */
 public interface SQLRouters {
 

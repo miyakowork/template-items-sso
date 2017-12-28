@@ -5,7 +5,7 @@ import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.find.annotation.OrderBy;
-import me.wuwenbin.modules.repository.provider.find.annotation.Primitive;
+import me.wuwenbin.modules.repository.provider.find.annotation.PrimitiveCollection;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
 import me.wuwenbin.modules.sql.constant.Router;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,7 +69,7 @@ public interface RoleRepository extends IPageAndSortRepository<Role, Long> {
     @SQL("SELECT tor.name AS role_name FROM t_oauth_role tor WHERE tor.id IN" +
             " (SELECT tour.role_id FROM t_oauth_user_role tour WHERE tour.user_id = ?)" +
             " AND tor.enabled = 1")
-    @Primitive
+    @PrimitiveCollection
     List<String> findRoleNamesByUserId(long userId);
 
     /**

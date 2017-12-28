@@ -1,6 +1,6 @@
 package me.wuwenbin.items.sso.service.service.impl;
 
-import me.wuwenbin.items.sso.dao.model.pageVo.ResourceVo;
+import me.wuwenbin.items.sso.dao.model.pagevo.ResourceVo;
 import me.wuwenbin.items.sso.dao.repository.ResourceRepository;
 import me.wuwenbin.items.sso.service.service.ResourceService;
 import me.wuwenbin.modules.jpa.support.Page;

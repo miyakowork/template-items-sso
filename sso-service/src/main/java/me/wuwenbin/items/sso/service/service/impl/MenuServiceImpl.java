@@ -71,7 +71,7 @@ public class MenuServiceImpl implements MenuModuleService {
     @Override
     @Cacheable(value = CacheConsts.MENU_CACHE, key = "#systemCode.concat(':').concat(#roleId).concat(':').concat(#menuModuleId)")
     public List<Menu> findLeftMenuCached(long roleId, long menuModuleId, String systemCode) {
-        return menuRepository.findLeftMenuByRouters(roleId, menuModuleId, systemCode);
+        return menuRepository.findLeftMenuByRouters(systemCode, roleId, menuModuleId, Boolean.TRUE);
     }
 
 

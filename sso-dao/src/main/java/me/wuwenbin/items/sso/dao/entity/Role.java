@@ -61,7 +61,7 @@ public class Role extends DataEntity<Long> {
 
     @Override
     public boolean nodeIsParent() {
-        return RepositoryFactory.get(RoleRepository.class).countByParentIdAndEnabled(getParentId(), true) != 0;
+        return RepositoryFactory.get(RoleRepository.class).countByParentIdAndEnabled(getId(), true) != 0;
     }
 
 }

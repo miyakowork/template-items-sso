@@ -1,6 +1,6 @@
 package me.wuwenbin.items.sso.service.service;
 
-import me.wuwenbin.items.sso.dao.model.pageVo.ResourceVo;
+import me.wuwenbin.items.sso.dao.model.pagevo.ResourceVo;
 import me.wuwenbin.modules.jpa.support.Page;
 import me.wuwenbin.modules.pagination.query.TableQuery;
 

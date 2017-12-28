@@ -3,6 +3,7 @@ package me.wuwenbin.items.sso.dao.repository;
 import me.wuwenbin.items.sso.dao.entity.ShiroSession;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.provider.save.annotation.SaveSQL;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,4 +43,14 @@ public interface ShiroSessionRepository extends IPageAndSortRepository<ShiroSess
      * @throws Exception
      */
     void deleteBySessionId(String sessionId) throws Exception;
+
+    /**
+     * 插入新的会话记录
+     *
+     * @param shiroSession
+     * @return
+     * @throws Exception
+     */
+    @SaveSQL(columns = {"username", "session_id", "ip", "session_base64", "session_timeout", "create_url", "update_url", "user_agent", "first_visit_date", "last_visit_date"})
+    int saveShiroSession(ShiroSession shiroSession) throws Exception;
 }

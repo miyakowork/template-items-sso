@@ -1,7 +1,7 @@
 package me.wuwenbin.items.sso.service.service.impl;
 
 import me.wuwenbin.items.sso.dao.entity.ShiroSession;
-import me.wuwenbin.items.sso.dao.model.queryBo.SessionBo;
+import me.wuwenbin.items.sso.dao.model.querybo.SessionBo;
 import me.wuwenbin.items.sso.dao.repository.ShiroSessionRepository;
 import me.wuwenbin.items.sso.service.service.ShiroSessionService;
 import me.wuwenbin.modules.jpa.support.Page;

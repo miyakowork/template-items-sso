@@ -88,11 +88,12 @@ public interface MenuRepository extends IPageAndSortRepository<Menu, Long> {
      * @param roleId
      * @param menuModuleId
      * @param systemCode
+     * @param enabled
      * @return
      */
     @Routers(FIND_LEFT_MENU)
     @OrderBy("order_index")
-    List<Menu> findLeftMenuByRouters(long roleId, long menuModuleId, String systemCode);
+    List<Menu> findLeftMenuByRouters(String systemCode, long roleId, long menuModuleId, Boolean enabled);
 
 
 }

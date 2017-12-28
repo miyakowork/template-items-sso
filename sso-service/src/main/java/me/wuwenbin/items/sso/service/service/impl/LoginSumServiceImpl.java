@@ -2,7 +2,7 @@ package me.wuwenbin.items.sso.service.service.impl;
 
 import me.wuwenbin.items.sso.dao.entity.Department;
 import me.wuwenbin.items.sso.dao.model.LoginSumBo;
-import me.wuwenbin.items.sso.dao.model.pageVo.LoginSumVo;
+import me.wuwenbin.items.sso.dao.model.pagevo.LoginSumVo;
 import me.wuwenbin.items.sso.dao.repository.DepartmentRepository;
 import me.wuwenbin.items.sso.dao.repository.UserLoginLogRepository;
 import me.wuwenbin.items.sso.service.service.LoginSumService;
@@ -40,14 +40,14 @@ public class LoginSumServiceImpl implements LoginSumService {
     @Override
     public LoginSumVo getData(LoginSumBo loginSumBo) {
         LocalDate endDate = LocalDate.parse(loginSumBo.getEndTime());
-        List<String> date = Stream.iterate(0, item -> item + 1).limit(loginSumBo.getNum() - 1).collect(timeSpanCollector(endDate));
+        List<String> date = Stream.iterate(0, item -> item + 1).limit(loginSumBo.getNum()).collect(timeSpanCollector(endDate));
         Collections.reverse(date);
         int num = loginSumBo.getNum();
         String[] sums = new String[num];
         String[] dates = new String[num];
         int[] mounts = new int[num];
         List<Long> deptIds = deptIdFormatter(loginSumBo.getDeptId());
-        IntStream.rangeClosed(0, num - 1).forEach(i -> {
+        IntStream.rangeClosed(0, num - 1).boxed().forEach(i -> {
             Map<String, Object> paramMap = Maps.hashMap("deptIds", deptIds, "dateStr", date.get(i));
             sums[i] = userLoginLogRepository.countSumByDeptIdsAndDate(paramMap).get("cnt").toString();
             mounts[i] = userLoginLogRepository.countMountByDeptIdsAndDate(paramMap);
@@ -106,6 +106,7 @@ public class LoginSumServiceImpl implements LoginSumService {
      */
     private List<Department> findDeptIdsByPIds(List<Department> list, Long pId) {
         List<Department> departments = departmentRepository.findByParentId(pId);
+        list.addAll(departments);
         departments.forEach(d -> findDeptIdsByPIds(list, d.getId()));
         return list;
     }
@@ -118,7 +119,8 @@ public class LoginSumServiceImpl implements LoginSumService {
      */
     private List<Long> deptIdFormatter(Long id) {
         List<Long> deptIds = Stream.of(id).collect(Collectors.toList());
-        findDeptIdsByPIds(new ArrayList<>(), id).forEach(d -> deptIds.add(d.getId()));
+        List<Department> list = new ArrayList<>();
+        findDeptIdsByPIds(list, id).forEach(d -> deptIds.add(d.getId()));
         return deptIds;
     }
 

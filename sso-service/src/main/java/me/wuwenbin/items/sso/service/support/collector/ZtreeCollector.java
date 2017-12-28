@@ -32,7 +32,7 @@ public class ZtreeCollector<T extends BaseEntity> implements Collector<T, List<Z
             Ztree treeBO = new Ztree();
             treeBO.setId(t.nodeId());
             treeBO.setName(t.nodeName());
-            treeBO.setPId(t.nodePId());
+            treeBO.setpId(t.nodePId());
             treeBO.setisParent(t.nodeIsParent());
             treeBO.setOpen(t.nodeOpen());
             treeBO.setOther(t.nodeOther());

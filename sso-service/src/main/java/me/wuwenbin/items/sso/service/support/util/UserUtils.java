@@ -8,7 +8,9 @@ import org.apache.shiro.subject.Subject;
 
 /**
  * 用户工具类
- * Created by Wuwenbin on 2017/7/17.
+ *
+ * @author Wuwenbin
+ * @date 2017/7/17
  */
 public class UserUtils {
     /**

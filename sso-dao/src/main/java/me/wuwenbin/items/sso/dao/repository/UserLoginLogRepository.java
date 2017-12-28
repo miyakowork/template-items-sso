@@ -26,7 +26,7 @@ public interface UserLoginLogRepository extends IPageAndSortRepository<UserLogin
      * @param sumMap
      * @return
      */
-    @SQL("SELECT count(0) FROM t_oauth_user_login_log toull " +
+    @SQL("SELECT count(0) AS cnt FROM t_oauth_user_login_log toull " +
             "WHERE toull.user_id IN (SELECT tou.id FROM t_oauth_user tou WHERE tou.dept_id IN (:deptIds)) " +
             "AND  date_format(toull.last_login_date,'%Y-%m-%d')=:dateStr")
     Map<String, Object> countSumByDeptIdsAndDate(Map<String, Object> sumMap);

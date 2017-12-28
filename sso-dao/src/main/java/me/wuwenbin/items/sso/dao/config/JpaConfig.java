@@ -5,6 +5,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import me.wuwenbin.modules.jpa.factory.DaoFactory;
 import me.wuwenbin.modules.jpa.factory.business.DataSourceX;
 import me.wuwenbin.modules.jpa.factory.business.DbType;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,15 +21,18 @@ import java.util.concurrent.ConcurrentHashMap;
 @Configuration
 public class JpaConfig {
 
+
     @Bean
-    public DruidDataSource dataSourceOne() {
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
+    public DruidDataSource druidDataSourceOne() {
         return DruidDataSourceBuilder.create().build();
     }
 
+
     @Bean
-    public DataSourceX dataSourceX(DruidDataSource dataSource) {
+    public DataSourceX dataSourceX(DruidDataSource druidDataSource) {
         DataSourceX dataSourceX = new DataSourceX();
-        dataSourceX.setDataSource(dataSource);
+        dataSourceX.setDataSource(druidDataSource);
         dataSourceX.setInitDbType(DbType.Mysql);
         return dataSourceX;
     }

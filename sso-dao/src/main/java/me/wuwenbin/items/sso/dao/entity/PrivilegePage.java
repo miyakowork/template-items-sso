@@ -7,7 +7,9 @@ import me.wuwenbin.modules.sql.annotation.SQLColumn;
 import me.wuwenbin.modules.sql.annotation.SQLTable;
 
 /**
- * Created by wuwenbin on 2017/7/12.
+ *
+ * @author wuwenbin
+ * @date 2017/7/12
  * 页面级权限表
  */
 @SQLTable("t_oauth_privilege_page")

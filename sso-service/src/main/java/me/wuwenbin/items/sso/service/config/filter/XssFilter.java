@@ -9,12 +9,14 @@ import java.util.Map;
 
 /**
  * Xss过滤
- * Created by wuwenbin on 2017/5/23.
+ *
+ * @author wuwenbin
+ * @date 2017/5/23
  */
 public class XssFilter implements Filter {
 
     @Override
-    public void init(FilterConfig config) throws ServletException {
+    public void init(FilterConfig config) {
     }
 
     @Override
@@ -37,10 +39,12 @@ public class XssFilter implements Filter {
          * 没被包装过的HttpServletRequest（特殊场景，需求自己过滤）
          */
         HttpServletRequest orgRequest;
-        //html过滤
-        private final static HTMLFilter htmlFilter = new HTMLFilter();
+        /**
+         * html过滤
+         */
+        private final static HTMLFilter HTML_FILTER = new HTMLFilter();
 
-        public XssHttpServletRequestWrapper(HttpServletRequest request) {
+        XssHttpServletRequestWrapper(HttpServletRequest request) {
             super(request);
             orgRequest = request;
         }
@@ -91,7 +95,7 @@ public class XssFilter implements Filter {
         }
 
         private String xssEncode(String input) {
-            return htmlFilter.filter(input);
+            return HTML_FILTER.filter(input);
         }
 
         /**

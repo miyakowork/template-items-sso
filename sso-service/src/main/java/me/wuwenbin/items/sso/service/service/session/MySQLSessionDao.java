@@ -112,7 +112,7 @@ public class MySQLSessionDao extends CachingSessionDAO {
         shiroSession.setUpdateUrl(request.getRequestURL().toString());
         shiroSession.setUserAgent(request.getHeader("User-Agent"));
         try {
-            shiroSessionRepository.save(shiroSession);
+            int n = shiroSessionRepository.saveShiroSession(shiroSession);
             return session.getId();
         } catch (Exception e) {
             LOG.error("创建shiroSession出现异常，异常信息：", e);

@@ -1,7 +1,9 @@
 spring:
-  thymeleaf:
-    cache: false
-    #非严格模式的HTML语法检查
-    mode: LEGACYHTML5
+  application:
+    name: sso-login
 server:
-  port: 8081
+  port: 8080
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:80/eureka/

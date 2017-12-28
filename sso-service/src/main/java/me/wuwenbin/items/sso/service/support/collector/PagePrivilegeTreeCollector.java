@@ -32,7 +32,7 @@ public class PagePrivilegeTreeCollector implements Collector<Map<String, Object>
             pageTree.setName(m.get("name").toString());
             pageTree.setOther(m.get("url").toString());
             pageTree.setOpen(true);
-            pageTree.setPId(m.get("resource_module_id").toString());
+            pageTree.setpId(m.get("resource_module_id").toString());
             pageTree.setResourceId(m.get("resource_id").toString());
             pageTree.setisParent(false);
             list.add(pageTree);
