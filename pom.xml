@@ -9,10 +9,9 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>sso-dao</module>
-        <module>sso-login</module>
+        <module>sso-auth-dao</module>
         <module>sso-auth-server</module>
-        <module>sso-service</module>
+        <module>sso-auth-service</module>
     </modules>
 
     <properties>
