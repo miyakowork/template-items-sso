@@ -12,11 +12,15 @@ import me.wuwenbin.modules.pagination.query.support.operator.Operator;
  */
 @Setter
 @Getter
-@QueryTable(name = "t_oauth_resource")
+@QueryTable(name = "t_oauth_resource", aliasName = "tor")
 public class ResourceLayBo extends LayTableQuery {
-    //搜索的资源名称
+    /**
+     * 搜索的资源名称
+     */
     private String name;
-    //资源所属系统
+    /**
+     * 资源所属系统
+     */
     @QueryColumn(column = "system_code", operator = Operator.EQ)
     private String systemModuleCode;
 

@@ -20,9 +20,9 @@
 <body>
 
 
-<div id="login-form" class="row-fluid login-wrapper" v-cloak="login">
+<div id="login-form" class="row-fluid login-wrapper" v-cloak="login" style="margin-top: 60px;">
     <a href="index.html">
-        <img class="logo" src="/static/img/login-logo-white.png"/>
+        <img class="logo hidden" src="/static/img/login-logo-white.png"/>
     </a>
 
     <div class="span4 box">
@@ -36,11 +36,7 @@
             </transition>
             <input class="span12" type="text" placeholder="用户名" v-model="username"/>
             <input class="span12" type="password" placeholder="密码" v-model="password" @keyup.enter="login"/>
-            <div class="remember">
-                <input id="rememberMe" name="rememberMe" type="checkbox" v-model="rememberMe"/>
-                <label for="rememberMe">记住我</label>
-            </div>
-            <a class="btn btn-glow primary login" @click="login">登录</a>
+            <a class="btn btn-glow primary login" style="margin-top: 20px;width: 110px;" @click="login">登录</a>
         </div>
     </div>
 

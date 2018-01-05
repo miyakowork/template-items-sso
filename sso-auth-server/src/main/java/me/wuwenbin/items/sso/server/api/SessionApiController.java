@@ -5,7 +5,7 @@ import me.wuwenbin.items.sso.dao.model.querybo.SessionBo;
 import me.wuwenbin.items.sso.server.web.BaseController;
 import me.wuwenbin.items.sso.service.constant.ShiroConsts;
 import me.wuwenbin.items.sso.service.service.ShiroSessionService;
-import me.wuwenbin.items.sso.service.service.session.MySQLSessionDao;
+import me.wuwenbin.items.sso.service.service.session.MySqlSessionDao;
 import me.wuwenbin.modules.jpa.support.Page;
 import me.wuwenbin.modules.pagination.model.bootstrap.BootstrapTable;
 import me.wuwenbin.modules.scanner.annotation.ResourceScan;
@@ -27,7 +27,7 @@ public class SessionApiController extends BaseController {
     @Autowired
     private ShiroSessionService shiroSessionService;
     @Autowired
-    private MySQLSessionDao sessionDao;
+    private MySqlSessionDao sessionDao;
 
     @RequestMapping("list")
     @RequiresPermissions("base:session:list")

@@ -5,7 +5,6 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import me.wuwenbin.modules.jpa.factory.DaoFactory;
 import me.wuwenbin.modules.jpa.factory.business.DataSourceX;
 import me.wuwenbin.modules.jpa.factory.business.DbType;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,8 +22,7 @@ public class JpaConfig {
 
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.druid")
-    public DruidDataSource druidDataSourceOne() {
+    public DruidDataSource dataSource() {
         return DruidDataSourceBuilder.create().build();
     }
 

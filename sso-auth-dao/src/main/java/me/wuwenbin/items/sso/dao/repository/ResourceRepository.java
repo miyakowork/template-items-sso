@@ -48,6 +48,21 @@ public interface ResourceRepository extends IPageAndSortRepository<Resource, Lon
     List<String> findPermissionByUserId(long userId);
 
     /**
+     * 根据用户id查找该用户所含有的权限标识
+     *
+     * @param userId
+     * @param systemCode
+     * @return
+     */
+    @SQL("SELECT tor.permission_mark AS pm FROM t_oauth_resource tor" +
+            " WHERE tor.enabled = 1 AND tor.ID " +
+            "  IN (SELECT tom.resource_id FROM t_oauth_menu tom " +
+            "WHERE tom.resource_id = tor.ID AND tom.enabled = 1 AND tom.role_id" +
+            "  IN (SELECT tour.role_id FROM t_oauth_user_role tour WHERE tour.user_id = ?)) AND tor.system_code = ?")
+    @PrimitiveCollection
+    List<String> findPermissionByUserIdAndSystemCode(long userId, String systemCode);
+
+    /**
      * 修改
      *
      * @param resource

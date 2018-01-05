@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
  * 先处理session是否过期。
  * 访问时先判断session是否已过期，过期了再根据访问的方式(ajax、router、html等)来进行下一步处理。
  * 处理完之后就不必再继续下一个filter处理了，因为已经处理完了(页面重定向、ajax返回等)
- * Created by wuwenbin on 2017/6/1.
+ *
+ * @author wuwenbin
+ * @date 2017/6/1
  */
 @Component
 public class SessionTimeoutFilter extends AccessControlFilter implements TemplateFilter {

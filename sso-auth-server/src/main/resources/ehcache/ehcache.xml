@@ -18,6 +18,17 @@
        memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。默认策略是LRU（最近最少使用）。你可以设置为FIFO（先进先出）或是LFU（较少使用）。
        clearOnFlush：内存数量最大时是否清除。
     -->
+    <defaultCache
+            maxElementsInMemory="10000"
+            maxElementsOnDisk="1000"
+            overflowToDisk="true"
+            diskPersistent="false"
+            timeToIdleSeconds="1800"
+            timeToLiveSeconds="0"
+            diskSpoolBufferSizeMB="50"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LFU"
+    />
 
     <diskStore path="java.io.tmpdir"/>
 

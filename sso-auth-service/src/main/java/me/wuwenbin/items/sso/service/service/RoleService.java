@@ -22,7 +22,17 @@ public interface RoleService {
     /**
      * 查询当前登录用户的所有角色名
      *
+     * @param userId
+     * @param systemCode
      * @return 当前用户的所有角色信息集合
      */
-    Set<Role> findCurrentUserRoles(Long userId, String systemCode);
+    Set<Role> findRolesByUserIdAndSystemCode(Long userId, String systemCode);
+
+    /**
+     * 查询当前登录用户所有用户名在所有的系统中
+     *
+     * @param userId
+     * @return
+     */
+    Set<Role> findCurrentUserRolesInAllSystems(Long userId);
 }

@@ -39,4 +39,6 @@ public class ShiroSession extends DataEntity<Long> {
     private Date firstVisitDate;
     @SQLColumn(routers = SQLRouters.UPDATE_SESSION)
     private Date lastVisitDate;
+
+
 }

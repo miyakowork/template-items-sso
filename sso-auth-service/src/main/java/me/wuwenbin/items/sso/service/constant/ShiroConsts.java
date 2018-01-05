@@ -29,15 +29,9 @@ public interface ShiroConsts {
     String SESSION_FORCE_LOGOUT_KEY = "session.force.logout";
 
     /**
-     * 获取当前登录用的使用的登录角色的key
-     */
-    String SESSION_CURRENT_LOGIN_ROLE = "session.current.login.role";
-
-    /**
      * 获取登录前的url，准备登陆成功之后跳转的url的key
      */
     String BEFORE_LOGIN_SUCCESS_URL = "before.login.success.url";
-
 
     /**
      * 登录URL页面地址

@@ -26,9 +26,9 @@ import java.util.Collection;
  * @date 2017/7/19
  */
 @Component
-public class MySQLSessionDao extends CachingSessionDAO {
+public class MySqlSessionDao extends CachingSessionDAO {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MySQLSessionDao.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MySqlSessionDao.class);
 
     @Resource
     private ShiroSessionRepository shiroSessionRepository;
@@ -47,7 +47,7 @@ public class MySQLSessionDao extends CachingSessionDAO {
         if (!isStaticFile(request)) {
             ShiroSession shiroSession = new ShiroSession();
             shiroSession.setSessionId(session.getId().toString());
-            Object loggedUsername = request.getSession().getAttribute(ShiroConsts.SESSION_USERNAME_KEY);
+            Object loggedUsername = session.getAttribute(ShiroConsts.SESSION_USERNAME_KEY);
             if (loggedUsername != null) {
                 shiroSession.setUsername(loggedUsername.toString());
             } else {
@@ -95,7 +95,7 @@ public class MySQLSessionDao extends CachingSessionDAO {
 //       session.setTimeout(5000);//ShiroConfig中设置了全局的超时时间，此处可单独设置每个的超时间以覆盖全局的
         ShiroSession shiroSession = new ShiroSession();
         shiroSession.setSessionId(session.getId().toString());
-        Object loggedUsername = request.getSession().getAttribute(ShiroConsts.SESSION_USERNAME_KEY);
+        Object loggedUsername = session.getAttribute(ShiroConsts.SESSION_USERNAME_KEY);
         String username;
         if (loggedUsername != null) {
             username = loggedUsername.toString();
@@ -112,7 +112,7 @@ public class MySQLSessionDao extends CachingSessionDAO {
         shiroSession.setUpdateUrl(request.getRequestURL().toString());
         shiroSession.setUserAgent(request.getHeader("User-Agent"));
         try {
-            int n = shiroSessionRepository.saveShiroSession(shiroSession);
+            LOG.info("保存shiroSession", shiroSessionRepository.saveShiroSession(shiroSession));
             return session.getId();
         } catch (Exception e) {
             LOG.error("创建shiroSession出现异常，异常信息：", e);

@@ -8,8 +8,7 @@ var vm = new Vue({
         username: '',
         password: '',
         error: false,
-        errorMsg: '',
-        rememberMe: false
+        errorMsg: ''
     },
     beforeCreate: function () {
         if (self !== top) {
@@ -22,11 +21,10 @@ var vm = new Vue({
             var params = new URLSearchParams();
             params.append("userName", vm.username);
             params.append("userPass", Base64.encode(vm.password));
-            params.append("rememberMe", vm.rememberMe);
             axios.post('/login/', params, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                 .then(function (result) {
                     result = result.data;
-                    var target = result.data;
+                    var target = result.data || result.url;
                     if (result.code === 200) {//登录成功
                         parent.location.href = target;
                     } else if (result.code === 302) {

@@ -4,6 +4,7 @@ import me.wuwenbin.items.sso.dao.entity.Role;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.provider.find.annotation.ListMap;
 import me.wuwenbin.modules.repository.provider.find.annotation.OrderBy;
 import me.wuwenbin.modules.repository.provider.find.annotation.PrimitiveCollection;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
@@ -29,6 +30,7 @@ public interface RoleRepository extends IPageAndSortRepository<Role, Long> {
      */
     @SQL("SELECT r.*,sm.name FROM t_oauth_role r LEFT JOIN t_oauth_system_module sm ON sm.system_code = r.system_code")
     @OrderBy("r.system_code")
+    @ListMap
     List<Map<String, Object>> findAllRoles();
 
     /**
@@ -72,6 +74,20 @@ public interface RoleRepository extends IPageAndSortRepository<Role, Long> {
     @PrimitiveCollection
     List<String> findRoleNamesByUserId(long userId);
 
+
+    /**
+     * 通过userId和系统代码查找角色名集合
+     *
+     * @param userId
+     * @param systemCode
+     * @return
+     */
+    @SQL("SELECT tor.name AS role_name FROM t_oauth_role tor WHERE tor.id IN" +
+            " (SELECT tour.role_id FROM t_oauth_user_role tour WHERE tour.user_id = ?)" +
+            " AND tor.enabled = 1 AND system_code = ?")
+    @PrimitiveCollection
+    List<String> findRoleNamesByUserIdAndSystemCode(long userId, String systemCode);
+
     /**
      * 根据用户id和系统模块代码查询用户在此系统下的所有角色
      *
@@ -80,7 +96,7 @@ public interface RoleRepository extends IPageAndSortRepository<Role, Long> {
      * @return
      */
     @SQL("SELECT tor.* FROM t_oauth_role tor WHERE tor.id IN" +
-            " (SELECT tour.role_id FROM t_oauth_user_role tour WHERE tour.user_id = ?)" +
+            " (SELECT tour.role_id FROM t_oauth_user_role tour WHERE tour.user_id = ? AND tor.enabled = 1)" +
             " AND tor.enabled = 1 AND tor.system_code = ?")
     @OrderBy("tor.id")
     List<Role> findRolesByUserIdAndSystemCode(long userId, String systemCode);

@@ -2,6 +2,7 @@ package me.wuwenbin.items.sso.service.config.filter;
 
 import me.wuwenbin.items.sso.service.constant.ShiroConsts;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
@@ -25,11 +26,11 @@ public class ForceLogoutFilter extends AccessControlFilter implements TemplateFi
     private static Logger LOG = LoggerFactory.getLogger(ForceLogoutFilter.class);
 
     @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest req = WebUtils.toHttp(request);
-        String URI = req.getRequestURI();
+        String uri = req.getRequestURI();
         String method = req.getMethod();
-        LOG.info("--SessionTimeoutFilter，访问URI:[{}]，请求方式:[{}]", URI, method);
+        LOG.info("--ForceLogoutFilter，访问URI:[{}]，请求方式:[{}]", uri, method);
 
         Session session = getSubject(request, response).getSession(false);
         if (session != null) {
@@ -49,12 +50,12 @@ public class ForceLogoutFilter extends AccessControlFilter implements TemplateFi
      */
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        HttpServletRequest request = WebUtils.toHttp(servletRequest);
+        Subject subject = getSubject(servletRequest, servletResponse);
         //如果shiro session不为空，则强制退出
-        if (getSubject(servletRequest, servletResponse).getSession(false) != null) {
+        if (subject.getSession(false) != null) {
             try {
                 //强制退出
-                getSubject(servletRequest, servletResponse).logout();
+                subject.logout();
             } catch (Exception e) {/*ignore exception*/}
         }
 
@@ -62,7 +63,7 @@ public class ForceLogoutFilter extends AccessControlFilter implements TemplateFi
         String loginUrl = getLoginUrl();
         String message = "请重新登录！";
         //如果不为空，则确定是被强制退出的，loginUrl加上forceLogout参数
-        if (request.getSession().getAttribute(ShiroConsts.SESSION_FORCE_LOGOUT_KEY) != null) {
+        if (subject.getSession().getAttribute(ShiroConsts.SESSION_FORCE_LOGOUT_KEY) != null) {
             loginUrl += (getLoginUrl().contains("?") ? "&" : "?") + "forceLogout=" + UUID.randomUUID().toString().replace("-", "");
             message = "您已被强制退出，请重新登录！";
         }

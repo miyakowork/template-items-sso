@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/jquery.min.js"></script>
+    <title>登录</title>
+</head>
+<body>
+<form id="form" action="/doLogin" method="post">
+    <input name="userName"><br/>
+    <input name="userPass"><br/>
+    <input type="submit" value="登录">
+</form>
+<script>
+    $(function () {
+        $("#form").submit(function () {
+            $.ajax({
+                url: $(this).attr("action"),
+                type: "post",
+                data: $(this).serialize(),
+                success: function (data) {
+                    alert(data.message);
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>

@@ -5,7 +5,6 @@ import me.wuwenbin.items.sso.dao.model.pagevo.MenuModuleVo;
 import me.wuwenbin.items.sso.dao.model.querybo.MenuModuleBo;
 import me.wuwenbin.items.sso.dao.repository.MenuModuleRepository;
 import me.wuwenbin.items.sso.server.web.BaseController;
-import me.wuwenbin.items.sso.service.service.MenuModuleService;
 import me.wuwenbin.items.sso.service.support.util.UserUtils;
 import me.wuwenbin.modules.jpa.support.Page;
 import me.wuwenbin.modules.pagination.model.bootstrap.BootstrapTable;
@@ -15,7 +14,6 @@ import me.wuwenbin.modules.utils.bean.ArrayConverts;
 import me.wuwenbin.modules.utils.http.R;
 import me.wuwenbin.modules.utils.web.Controllers;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +32,6 @@ public class MenuModuleApiController extends BaseController {
 
     @Resource
     private MenuModuleRepository menuModuleRepository;
-    @Autowired
-    private MenuModuleService menuModuleService;
 
 
     /**

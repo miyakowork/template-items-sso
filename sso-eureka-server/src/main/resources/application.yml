@@ -7,4 +7,13 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://admin:123654@${eureka.instance.hostname}:${server.port}/eureka/
+security:
+  basic:
+    enabled: true
+  user:
+    name: admin
+    password: 123654
+feign:
+  httpclient:
+    connection-timeout: 10000

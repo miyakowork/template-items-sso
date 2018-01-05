@@ -32,6 +32,8 @@ public class ShiroFilterConfig {
         formAuthenticationFilter.setPasswordParam("userPass");
         formAuthenticationFilter.setRememberMeParam("rememberMe");
         formAuthenticationFilter.setLoginUrl("/login/");
+        //此处设置的应该是登录选择系统的界面，因为有可能该用户包含多个可登录的系统的权限
+        formAuthenticationFilter.setSuccessUrl("/oauth2/systems");
         return formAuthenticationFilter;
     }
 
@@ -52,10 +54,11 @@ public class ShiroFilterConfig {
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        shiroFilterFactoryBean.setLoginUrl("/login/");
         shiroFilterFactoryBean.setUnauthorizedUrl("/error/403");
+        shiroFilterFactoryBean.setLoginUrl("/login/");
         //此处设置的应该是登录选择系统的界面，因为有可能该用户包含多个可登录的系统的权限
         shiroFilterFactoryBean.setSuccessUrl("/oauth2/systems");
+
 
         Map<String, Filter> filters = new LinkedHashMap<>();
         filters.put("myAuthc", formAuthenticationFilter);
@@ -69,7 +72,6 @@ public class ShiroFilterConfig {
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/login/router", "anon");
         filterChainDefinitionMap.put("/login/", "anon");
-        filterChainDefinitionMap.put("/management/**", "forceLogout,sto,user");
         filterChainDefinitionMap.put("/oauth2/**", "forceLogout,sto,myAuthc");
         filterChainDefinitionMap.put("/", "forceLogout,sto,myAuthc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

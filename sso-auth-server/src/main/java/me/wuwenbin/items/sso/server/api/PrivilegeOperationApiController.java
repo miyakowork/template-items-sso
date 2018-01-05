@@ -60,8 +60,8 @@ public class PrivilegeOperationApiController extends BaseController {
     @RequestMapping("delete")
     @RequiresPermissions("base:privilegeOperation:delete")
     @ResourceScan("删除操作级权限操作")
-    public R delete(String ids) {
-        long[] idArray = ArrayConverts.toLongArray(ids.split(","));
+    public R delete(String id) {
+        long[] idArray = ArrayConverts.toLongArray(id.split(","));
         List<Long> longs = Arrays.stream(idArray).boxed().collect(Collectors.toList());
         return Controllers.builder("删除操作及权限").execLight(longs, idLongs -> privilegeOperationRepository.delete(longs));
     }

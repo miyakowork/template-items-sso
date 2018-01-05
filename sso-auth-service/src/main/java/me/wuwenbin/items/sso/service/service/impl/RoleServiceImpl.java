@@ -29,11 +29,20 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Set<Role> findCurrentUserRoles(Long userId, String systemCode) {
+    public Set<Role> findRolesByUserIdAndSystemCode(Long userId, String systemCode) {
         if (userId == null) {
             return new HashSet<>(roleRepository.findRolesByUserIdAndSystemCode(UserUtils.getLoginUser().getId(), systemCode));
         } else {
             return new HashSet<>(roleRepository.findRolesByUserIdAndSystemCode(userId, systemCode));
+        }
+    }
+
+    @Override
+    public Set<Role> findCurrentUserRolesInAllSystems(Long userId) {
+        if (userId == null) {
+            return new HashSet<>(roleRepository.findRolesByUserId(UserUtils.getLoginUser().getId()));
+        } else {
+            return new HashSet<>(roleRepository.findRolesByUserId(userId));
         }
     }
 }

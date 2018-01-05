@@ -1,9 +1,25 @@
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:80/eureka/
+      defaultZone: http://admin:123654@localhost:80/eureka/
 server:
   port: 8084
 spring:
   application:
     name: sso-app1
+  thymeleaf:
+    cache: false
+    #非严格模式的HTML语法检查
+    mode: LEGACYHTML5
+  mvc:
+      static-path-pattern: /static/**
+      favicon:
+        enabled: false
+template:
+  client:
+    login-url: /login
+    filter-auth-url: /**
+    filter-none-url: /login,/doLogin
+feign:
+  httpclient:
+    connection-timeout: 10000

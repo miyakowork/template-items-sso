@@ -6,7 +6,6 @@ import me.wuwenbin.items.sso.dao.model.querybo.RoleBo;
 import me.wuwenbin.items.sso.dao.repository.RoleRepository;
 import me.wuwenbin.items.sso.server.web.BaseController;
 import me.wuwenbin.items.sso.service.model.Ztree;
-import me.wuwenbin.items.sso.service.service.RoleService;
 import me.wuwenbin.items.sso.service.service.common.PublicServices;
 import me.wuwenbin.items.sso.service.support.util.UserUtils;
 import me.wuwenbin.modules.jpa.support.Page;
@@ -15,7 +14,6 @@ import me.wuwenbin.modules.scanner.annotation.ResourceScan;
 import me.wuwenbin.modules.utils.http.R;
 import me.wuwenbin.modules.utils.web.Controllers;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +29,6 @@ import java.util.Map;
 @RequestMapping("/oauth2/role/api")
 public class RoleApiController extends BaseController {
 
-    @Autowired
-    private RoleService roleService;
     @Resource
     private RoleRepository roleRepository;
 
@@ -46,7 +42,7 @@ public class RoleApiController extends BaseController {
     @RequestMapping("list")
     @RequiresPermissions("base:role:tree")
     @ResourceScan("获取角色列表页面的数据")
-    public BootstrapTable<RoleVo> sysParams(RoleBo roleBo, Page<RoleVo> page) {
+    public BootstrapTable<RoleVo> rolePage(RoleBo roleBo, Page<RoleVo> page) {
         page = roleRepository.findPagination(page, RoleVo.class, roleBo);
         return bootstrapTable(page);
     }
@@ -102,5 +98,6 @@ public class RoleApiController extends BaseController {
     public List<Map<String, Object>> findAllRoles() {
         return roleRepository.findAllRoles();
     }
+
 
 }

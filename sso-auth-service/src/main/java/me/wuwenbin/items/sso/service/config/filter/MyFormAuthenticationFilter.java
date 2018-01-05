@@ -1,24 +1,29 @@
 package me.wuwenbin.items.sso.service.config.filter;
 
 import jodd.json.JsonSerializer;
+import me.wuwenbin.items.sso.dao.entity.UserLoginLog;
+import me.wuwenbin.items.sso.dao.repository.UserLoginLogRepository;
+import me.wuwenbin.items.sso.dao.repository.UserRepository;
 import me.wuwenbin.items.sso.service.constant.ShiroConsts;
 import me.wuwenbin.items.sso.service.support.util.HttpUtils;
 import me.wuwenbin.items.sso.service.utils.FilterUtils;
 import me.wuwenbin.modules.pagination.util.StringUtils;
+import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
 import me.wuwenbin.modules.utils.http.R;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 
 /**
  * 用于验证码验证的 Shiro 拦截器在用于身份认证的拦截器之前运行;
@@ -29,6 +34,7 @@ import java.io.PrintWriter;
  * @author wuwenbin
  * @since 1.0
  */
+@Component
 public class MyFormAuthenticationFilter extends FormAuthenticationFilter implements TemplateFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(MyFormAuthenticationFilter.class);
@@ -47,7 +53,19 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter impleme
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletRequest.getSession().removeAttribute(ShiroConsts.SESSION_FORCE_LOGOUT_KEY);
+        //验证用户成功了，把用户名信息放到session中去
+        subject.getSession().setAttribute(ShiroConsts.SESSION_USERNAME_KEY, token.getPrincipal());
+        //验证用户成功了，删除强制登录的标识
+        subject.getSession().removeAttribute(ShiroConsts.SESSION_FORCE_LOGOUT_KEY);
+        try {
+            Long userId = RepositoryFactory.get(UserRepository.class).findByUsername((String) token.getPrincipal()).getId();
+            UserLoginLog userLoginLog = UserLoginLog.builder().userId(userId).lastLoginDate(LocalDateTime.now()).lastLoginIp(HttpUtils.getRemoteAddr(httpServletRequest)).build();
+            userLoginLog.setEnabled(true);
+            userLoginLog.setUpdateDate(LocalDateTime.now());
+            RepositoryFactory.get(UserLoginLogRepository.class).save(userLoginLog);
+        } catch (Exception e) {
+            LOG.error("记录用户登录日志失败，异常信息：{}", e);
+        }
         Object beforeLoginSuccessUrl = httpServletRequest.getSession().getAttribute(ShiroConsts.BEFORE_LOGIN_SUCCESS_URL);
         String uri = beforeLoginSuccessUrl != null ? StringUtils.isNotEmpty(beforeLoginSuccessUrl.toString()) ? beforeLoginSuccessUrl.toString() : getSuccessUrl() : getSuccessUrl();
         if (!HttpUtils.isAjax(httpServletRequest)) {
@@ -107,24 +125,5 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter impleme
         }
 //        return super.onAccessDenied(request, response);
     }
-
-    @Override
-    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
-        String username = getUsername(request);
-        String password = getPassword(request);
-        return this.createToken(username, password, request);
-    }
-
-    private AuthenticationToken createToken(String username, String password, ServletRequest request) {
-        boolean rememberMe = isRememberMe(request);
-        String host = getHost(request);
-        return this.createToken(username, password, rememberMe, host);
-    }
-
-    @Override
-    protected AuthenticationToken createToken(String username, String password, boolean rememberMe, String host) {
-        return new UsernamePasswordToken(username, password, rememberMe, host);
-    }
-
 
 }

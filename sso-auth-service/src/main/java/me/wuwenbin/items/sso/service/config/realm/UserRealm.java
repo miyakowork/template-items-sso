@@ -15,8 +15,8 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +38,7 @@ public class UserRealm extends AuthorizingRealm implements CacheConsts {
 
 
     /**
-     * 授权 每次点击都会进行验证
+     * 授权 每次点击都会进行验证(验证权限时调用)
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -55,11 +55,19 @@ public class UserRealm extends AuthorizingRealm implements CacheConsts {
 
 
     /**
-     * 登录认证 登录时验证
+     * 认证 (登录时调用)
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws RuntimeException {
         String username = (String) token.getPrincipal();
+        if (StringUtils.isEmpty(username)) {
+            throw new UnknownAccountException();
+        }
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            //没找到帐号
+            throw new UnknownAccountException();
+        }
         HttpServletRequest request = HttpUtils.getRequest();
         List<SystemModule> systemModules = RepositoryFactory.get(SystemModuleRepository.class).findByUserCanLogin(username);
         if (systemModules != null) {
@@ -73,11 +81,6 @@ public class UserRealm extends AuthorizingRealm implements CacheConsts {
             request.getSession().setAttribute(ShiroConsts.BEFORE_LOGIN_SUCCESS_URL, "/error/404");
         }
 
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            //没找到帐号
-            throw new UnknownAccountException();
-        }
         if (Boolean.FALSE.equals(user.getEnabled())) {
             // 帐号锁定
             throw new LockedAccountException();
@@ -86,7 +89,7 @@ public class UserRealm extends AuthorizingRealm implements CacheConsts {
         return new SimpleAuthenticationInfo(
                 user.getUsername(),
                 user.getPassword(),
-                ByteSource.Util.bytes(user.getCredentialsSalt()),
+                new MySimpleByteSource(user.getCredentialsSalt()),
                 getName()
         );
     }

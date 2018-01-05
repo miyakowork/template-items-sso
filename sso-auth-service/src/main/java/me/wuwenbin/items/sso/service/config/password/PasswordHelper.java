@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 /**
  * 用户密码操作
  * 可实现加密用户密码等
- * Created by wuwenbin on 2017/4/18.
+ *
+ * @author wuwenbin
+ * @date 2017/4/18
  */
 @Component
 public class PasswordHelper {

@@ -97,7 +97,7 @@ public class UserApiController extends BaseController {
     @ResourceScan("编辑用户")
     public R doEdit(User user) {
         user.preUpdate(UserUtils.getLoginUser()::getId);
-        return Controllers.builder("修改用户").exec(() -> userRepository.editUserInfo(user) > 0);
+        return Controllers.builder("修改用户").exec(() -> userRepository.updateUserInfo(user) > 0);
     }
 
 
@@ -140,10 +140,10 @@ public class UserApiController extends BaseController {
      * @return
      */
     @RequestMapping("findCurrentUserRoles")
-    @RequiresPermissions("base:user:findCurrentUserRoles")
+    @RequiresPermissions("base:user:findRolesByUserIdAndSystemCode")
     @ResourceScan("查找当前用户拥有的所有角色")
-    public Set<Role> findCurrentUserRoles(Long userId, String systemCode) {
-        return roleService.findCurrentUserRoles(userId, systemCode);
+    public Set<Role> findCurrentUserRoles(Long userId) {
+        return roleService.findCurrentUserRolesInAllSystems(userId);
     }
 
 

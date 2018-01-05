@@ -1,27 +1,19 @@
 package me.wuwenbin.items.sso.service.config.matcher;
 
 import me.wuwenbin.items.sso.dao.entity.User;
-import me.wuwenbin.items.sso.dao.entity.UserLoginLog;
-import me.wuwenbin.items.sso.dao.repository.UserLoginLogRepository;
 import me.wuwenbin.items.sso.dao.repository.UserRepository;
 import me.wuwenbin.items.sso.service.config.password.PasswordHelper;
 import me.wuwenbin.items.sso.service.constant.CacheConsts;
-import me.wuwenbin.items.sso.service.constant.ShiroConsts;
-import me.wuwenbin.items.sso.service.support.util.HttpUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.codec.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -33,17 +25,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class MyCredentialsMatcher extends SimpleCredentialsMatcher {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MyCredentialsMatcher.class);
-
     @Autowired
     private PasswordHelper passwordHelper;
     @Autowired
+    @Qualifier("ehCacheManager")
     private CacheManager cacheManager;
 
     @Resource
     private UserRepository userRepository;
-    @Resource
-    private UserLoginLogRepository loginLogRepository;
+
     private Cache<String, AtomicInteger> passwordRetryCache;
 
     @Autowired
@@ -73,22 +63,6 @@ public class MyCredentialsMatcher extends SimpleCredentialsMatcher {
         if (matches) {
             //clear retry count
             passwordRetryCache.remove(username);
-
-            HttpServletRequest request = HttpUtils.getRequest();
-            HttpSession session = request.getSession();
-            //验证用户成功了，把用户名信息放到session中去
-            session.setAttribute(ShiroConsts.SESSION_USERNAME_KEY, username);
-            //验证用户成功了，删除强制登录的标识
-            session.removeAttribute(ShiroConsts.SESSION_FORCE_LOGOUT_KEY);
-            try {
-                Long userId = userRepository.findByUsername(username).getId();
-                UserLoginLog userLoginLog = UserLoginLog.builder().userId(userId).lastLoginDate(LocalDateTime.now()).lastLoginIp(HttpUtils.getRemoteAddr(request)).build();
-                userLoginLog.setEnabled(true);
-                userLoginLog.setUpdateDate(LocalDateTime.now());
-                loginLogRepository.save(userLoginLog);
-            } catch (Exception e) {
-                LOGGER.error("记录用户登录日志失败，异常信息：{}", e);
-            }
         }
         return matches;
     }

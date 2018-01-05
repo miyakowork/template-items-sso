@@ -26,7 +26,7 @@ public interface UserRepository extends IPageAndSortRepository<User, Long> {
      * @throws Exception
      */
     @Routers(EDIT_USER)
-    int editUserInfo(User user) throws Exception;
+    int updateUserInfo(User user) throws Exception;
 
     /**
      * 批量更改用户为不可用状态
@@ -62,6 +62,7 @@ public interface UserRepository extends IPageAndSortRepository<User, Long> {
      * @param password
      * @param id
      * @return
+     * @throws Exception
      */
     int updatePasswordById(String password, long id) throws Exception;
 
