@@ -6,8 +6,12 @@
     + 注：插件只[template](https://github.com/miyakowork/template-boot-modules)模块中的，目前还在完善
 ---
 ## 技术品种\(≧▽≦)/
-| 名称        | 版本         | 备注 |
-| :-------------- :|:-------------:|:-----:|
-| SpringBoot    |   1.5.9.RELEASE           |  -  |
-| SpringCloud  | Edgware.RELEASE       |   -  |
-| zebra stripes | are neat      |    $1 |
++ 包括但不仅限于以下所列举的，想到再加上 （滑稽）
+
+|   名称        | 版本 |
+|:-----------------------------------:|:-------------:|
+|           Java                            |      1.8    |
+|           SpringBoot                |      1.5.9.RELEASE    |
+|           SpringCloud              |      Edgware.RELEASE    |
+|           Apache Shiro            |      1.4.0    |
+|           TemplateModules    |      1.10.15-SNAPSHOT    |
