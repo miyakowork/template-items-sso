@@ -4,6 +4,7 @@ import lombok.*;
 import me.wuwenbin.items.sso.dao.entity.base.DataEntity;
 import me.wuwenbin.modules.sql.annotation.SQLColumn;
 import me.wuwenbin.modules.sql.annotation.SQLTable;
+import me.wuwenbin.modules.sql.constant.Router;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +26,10 @@ public class SystemModule extends DataEntity<Long> {
     private String name;
     private String indexUrl;
     private String systemCode;
+    @SQLColumn(routers = Router.A)
+    private String privateKey;
+    @SQLColumn(routers = Router.A)
+    private String publicKey;
 
 
     /**

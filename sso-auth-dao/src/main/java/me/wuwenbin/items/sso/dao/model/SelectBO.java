@@ -3,14 +3,18 @@ package me.wuwenbin.items.sso.dao.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 前台下拉搜索的对象
- * Created by wuwenbin on 2017/7/23.
+ *
+ * @author wuwenbin
+ * @date 2017/7/23
  */
 @Setter
 @Getter
 @Builder
+@ToString
 public class SelectBO {
 
     private Object value;

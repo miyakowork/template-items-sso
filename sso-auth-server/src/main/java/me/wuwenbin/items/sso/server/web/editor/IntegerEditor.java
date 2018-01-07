@@ -10,7 +10,7 @@ import java.beans.PropertyEditorSupport;
 public class IntegerEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
-        if (text == null || text.equals("")) {
+        if (text == null || "".equals(text)) {
             text = "0";
         }
         if (!StringUtils.hasText(text)) {

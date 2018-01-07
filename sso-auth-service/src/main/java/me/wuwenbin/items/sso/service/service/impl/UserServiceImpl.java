@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int changePasswordByUser(User user, String newPassword) throws Exception {
+        newPassword = passwordHelper.getPasswordByPlain(user, newPassword);
         user.setPassword(newPassword);
-        passwordHelper.encryptPassword(user);
         user.preUpdate(UserUtils.getLoginUser()::getId);
         return userRepository.updatePasswordById(user.getPassword(), user.getId());
     }
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int addNewUser(User user) throws Exception {
         user.preInsert(UserUtils.getLoginUser()::getId);
-        passwordHelper.encryptPassword(user);
+        passwordHelper.encryptPasswordByPlain(user);
         User newUser = userRepository.save(user);
         UserRole ur = UserRole.builder().userId(newUser.getId()).roleId(newUser.getDefaultRoleId()).enabled(true).build();
         return userRoleRepository.saveUserRole(ur);

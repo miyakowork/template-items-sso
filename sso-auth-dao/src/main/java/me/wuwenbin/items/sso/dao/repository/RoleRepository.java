@@ -6,6 +6,7 @@ import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.find.annotation.ListMap;
 import me.wuwenbin.modules.repository.provider.find.annotation.OrderBy;
+import me.wuwenbin.modules.repository.provider.find.annotation.Primitive;
 import me.wuwenbin.modules.repository.provider.find.annotation.PrimitiveCollection;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
 import me.wuwenbin.modules.sql.constant.Router;
@@ -109,6 +110,15 @@ public interface RoleRepository extends IPageAndSortRepository<Role, Long> {
      */
     @Modify(Router.DEFAULT)
     int updateById(Role role);
+
+    /**
+     * 通过roleId查找systemCode
+     *
+     * @param roleId
+     * @return
+     */
+    @Primitive
+    String findSystemCodeById(long roleId);
 
 
 }

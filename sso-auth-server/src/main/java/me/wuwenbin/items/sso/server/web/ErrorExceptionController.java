@@ -58,7 +58,7 @@ public class ErrorExceptionController extends BaseController implements ErrorCon
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response, @PathVariable String errorCode) {
         response.setStatus(getStatus(request).value());
         Map<String, Object> model = getErrorAttributes(request, isIncludeStackTrace(request, MediaType.TEXT_HTML));
-        model.put("pageCode", errorCode.equalsIgnoreCase("exception") ? "500" : errorCode);
+        model.put("pageCode", "exception".equalsIgnoreCase(errorCode) ? "500" : errorCode);
         if (isRouter()) {
             return new ModelAndView("error/router", model);
         } else {

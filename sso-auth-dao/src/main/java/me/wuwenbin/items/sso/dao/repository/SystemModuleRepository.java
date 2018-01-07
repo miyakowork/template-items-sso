@@ -4,6 +4,7 @@ import me.wuwenbin.items.sso.dao.entity.SystemModule;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.provider.find.annotation.Primitive;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
 import me.wuwenbin.modules.sql.constant.Router;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +27,6 @@ public interface SystemModuleRepository extends IPageAndSortRepository<SystemMod
      * @return
      */
     int countBySystemCode(String systemCode);
-
-    /**
-     * 通过系统代码查找该系统的首页url地址
-     *
-     * @param systemCode
-     * @return
-     */
-    String findIndexUrlBySystemCode(String systemCode);
 
     /**
      * 查询系统模块集合，用户可登录的
@@ -63,4 +56,30 @@ public interface SystemModuleRepository extends IPageAndSortRepository<SystemMod
     @Modify(Router.DEFAULT)
     int updateById(SystemModule systemModule);
 
+    /**
+     * 插入非对称密钥
+     *
+     * @param systemModule
+     * @return
+     */
+    @Modify(Router.A)
+    int updateKeysBySystemCode(SystemModule systemModule);
+
+    /**
+     * 根据systemCode查找对应的publicKey
+     *
+     * @param systemCode
+     * @return
+     */
+    @Primitive
+    String findPublicKeyBySystemCode(String systemCode);
+
+    /**
+     * 根据systemCode查找首页url
+     *
+     * @param systemCode
+     * @return
+     */
+    @Primitive
+    String findIndexUrlBySystemCode(String systemCode);
 }

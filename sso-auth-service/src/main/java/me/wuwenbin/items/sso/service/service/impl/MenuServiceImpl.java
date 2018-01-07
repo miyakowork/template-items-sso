@@ -4,7 +4,7 @@ import me.wuwenbin.items.sso.dao.entity.Menu;
 import me.wuwenbin.items.sso.dao.repository.MenuRepository;
 import me.wuwenbin.items.sso.service.constant.CacheConsts;
 import me.wuwenbin.items.sso.service.model.Ztree;
-import me.wuwenbin.items.sso.service.service.MenuModuleService;
+import me.wuwenbin.items.sso.service.service.MenuService;
 import me.wuwenbin.items.sso.service.service.common.PublicServices;
 import me.wuwenbin.items.sso.service.support.collector.PagePrivilegeTreeCollector;
 import me.wuwenbin.items.sso.service.support.util.UserUtils;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class MenuServiceImpl implements MenuModuleService {
+public class MenuServiceImpl implements MenuService {
 
     @Resource
     private MenuRepository menuRepository;

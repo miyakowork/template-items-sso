@@ -20,7 +20,7 @@ var vm = new Vue({
             vm.error = false;
             var params = new URLSearchParams();
             params.append("userName", vm.username);
-            params.append("userPass", Base64.encode(vm.password));
+            params.append("userPass", md5(vm.password));
             axios.post('/login/', params, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
                 .then(function (result) {
                     result = result.data;

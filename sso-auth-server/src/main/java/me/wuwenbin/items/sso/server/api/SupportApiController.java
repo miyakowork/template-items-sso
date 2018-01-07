@@ -2,13 +2,12 @@ package me.wuwenbin.items.sso.server.api;
 
 import me.wuwenbin.items.sso.dao.entity.SystemModule;
 import me.wuwenbin.items.sso.dao.model.SelectBO;
+import me.wuwenbin.items.sso.dao.repository.ResourceRepository;
 import me.wuwenbin.items.sso.dao.repository.RoleRepository;
 import me.wuwenbin.items.sso.dao.repository.SystemModuleRepository;
 import me.wuwenbin.items.sso.server.web.BaseController;
-import me.wuwenbin.items.sso.service.service.PermissionService;
 import me.wuwenbin.modules.scanner.annotation.ResourceScan;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +24,8 @@ public class SupportApiController extends BaseController {
 
     @Resource
     private SystemModuleRepository systemModuleRepository;
-    @Autowired
-    private PermissionService permissionService;
+    @Resource
+    private ResourceRepository resourceRepository;
     @Resource
     private RoleRepository roleRepository;
 
@@ -76,7 +75,7 @@ public class SupportApiController extends BaseController {
     @RequiresPermissions("base:support:getPermissionsByRoleId")
     @ResourceScan("获取当前登录用户的登录角色的所有权限标识名称")
     public Collection<String> getPermissionsByRoleId(int roleId) {
-        return permissionService.findPermissionsByRoleId(roleId);
+        return resourceRepository.findPermissionByRoleId(roleId);
     }
 
     /**

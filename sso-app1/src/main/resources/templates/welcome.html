@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>欢迎页</title>
+    <script src="/static/jquery.min.js"></script>
 </head>
 <body>
+<button id="test">点我测试</button>
 欢迎页面，不需要权限即可访问
+<script>
+    $(function () {
+        $("#test").click(function () {
+            $.post("/testAjax", function (data) {
+                alert(data.message)
+            })
+        })
+    })
+</script>
 </body>
 </html>

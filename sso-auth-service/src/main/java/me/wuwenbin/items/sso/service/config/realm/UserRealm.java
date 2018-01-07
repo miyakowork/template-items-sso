@@ -1,12 +1,11 @@
 package me.wuwenbin.items.sso.service.config.realm;
 
-import me.wuwenbin.items.sso.dao.entity.SystemModule;
 import me.wuwenbin.items.sso.dao.entity.User;
-import me.wuwenbin.items.sso.dao.repository.SystemModuleRepository;
+import me.wuwenbin.items.sso.dao.repository.ResourceRepository;
+import me.wuwenbin.items.sso.dao.repository.RoleRepository;
 import me.wuwenbin.items.sso.dao.repository.UserRepository;
+import me.wuwenbin.items.sso.service.config.token.MyUsernamePasswordToken;
 import me.wuwenbin.items.sso.service.constant.CacheConsts;
-import me.wuwenbin.items.sso.service.constant.ShiroConsts;
-import me.wuwenbin.items.sso.service.service.PermissionService;
 import me.wuwenbin.items.sso.service.service.RoleService;
 import me.wuwenbin.items.sso.service.support.util.HttpUtils;
 import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
@@ -15,12 +14,14 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.HashSet;
 
 /**
  * 用户权限认证
@@ -29,12 +30,14 @@ import java.util.List;
  */
 public class UserRealm extends AuthorizingRealm implements CacheConsts {
 
+    private static Logger LOG = LoggerFactory.getLogger(UserRealm.class);
+
     @Resource
     private UserRepository userRepository;
     @Autowired
     private RoleService roleService;
-    @Autowired
-    private PermissionService permissionService;
+    @Resource
+    private ResourceRepository resourceRepository;
 
 
     /**
@@ -49,7 +52,7 @@ public class UserRealm extends AuthorizingRealm implements CacheConsts {
         authorizationInfo.setRoles(roleService.findRoleNamesByUserId(currentUser.getId()));
         //获取当前用户默认角色
         long roleId = currentUser.getDefaultRoleId();
-        authorizationInfo.setStringPermissions(permissionService.findPermissionsByRoleId(roleId));
+        authorizationInfo.setStringPermissions(new HashSet<>(resourceRepository.findPermissionByRoleId(roleId)));
         return authorizationInfo;
     }
 
@@ -61,30 +64,39 @@ public class UserRealm extends AuthorizingRealm implements CacheConsts {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws RuntimeException {
         String username = (String) token.getPrincipal();
         if (StringUtils.isEmpty(username)) {
+            LOG.error("用户名不能为空");
             throw new UnknownAccountException();
         }
+
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            //没找到帐号
+            LOG.error("用户：[{}] 不存在", username);
             throw new UnknownAccountException();
         }
+
         HttpServletRequest request = HttpUtils.getRequest();
-        List<SystemModule> systemModules = RepositoryFactory.get(SystemModuleRepository.class).findByUserCanLogin(username);
-        if (systemModules != null) {
-            //表示该用户仅有一个可登录的系统，直接让他登录此系统首页，不显示系统选择界面
-            if (systemModules.size() == 1) {
-                request.getSession().setAttribute(ShiroConsts.BEFORE_LOGIN_SUCCESS_URL, systemModules.get(0).getIndexUrl());
+        MyUsernamePasswordToken myToken = (MyUsernamePasswordToken) token;
+        String loginFrom = myToken.getFrom();
+        //如果不是从sso-auth-server登录的，则是调用api登录，那么需要传入systemCode参数
+        if (!"uls".equals(loginFrom)) {
+            Object systemCode = request.getParameter("systemCode");
+            if (StringUtils.isEmpty(systemCode)) {
+                LOG.error("系统代码不能为空");
+                throw new UnknownAccountException();
             }
-            //其余的则表示该用户有多个可登录的系统，登陆成功之后显示系统选择界面
-        } else {//表示该用户没有一个可以登录的系统，显示错误页面
-            //TODO:转向错误提示页面（提示该用户没有一个系统可以让他登录）
-            request.getSession().setAttribute(ShiroConsts.BEFORE_LOGIN_SUCCESS_URL, "/error/404");
+            long defaultRoleId = user.getDefaultRoleId();
+            String userInSystem = RepositoryFactory.get(RoleRepository.class).findSystemCodeById(defaultRoleId);
+            if (!systemCode.equals(userInSystem)) {
+                LOG.error("账号：[{}] 无权登录系统：[{}]", username, systemCode);
+                throw new UnknownAccountException();
+            }
         }
 
         if (Boolean.FALSE.equals(user.getEnabled())) {
             // 帐号锁定
             throw new LockedAccountException();
         }
+
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
         return new SimpleAuthenticationInfo(
                 user.getUsername(),

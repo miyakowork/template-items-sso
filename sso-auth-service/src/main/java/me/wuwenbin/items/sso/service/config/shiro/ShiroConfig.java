@@ -8,12 +8,14 @@ import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Collections;
 
@@ -43,7 +45,7 @@ public class ShiroConfig implements CacheConsts {
      * @return
      */
     @Bean
-    public UserRealm userRealm(CredentialsMatcher credentialsMatcher, EhCacheManager cacheManager) {
+    public UserRealm userRealm(CredentialsMatcher credentialsMatcher, EhCacheManager cacheManager, WebApplicationContext applicationContext) {
         UserRealm userRealm = new UserRealm();
         userRealm.setCredentialsMatcher(credentialsMatcher);
         userRealm.setCacheManager(cacheManager);
@@ -86,7 +88,7 @@ public class ShiroConfig implements CacheConsts {
             RedisSessionDAO sessionDao,
             RedisCacheManager cacheManager,
             SessionListener listener) {
-        MySessionManager sessionManager = new MySessionManager();
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         sessionManager.setSessionDAO(sessionDao);
         sessionManager.setCacheManager(cacheManager);
         sessionManager.setSessionListeners(Collections.singletonList(listener));

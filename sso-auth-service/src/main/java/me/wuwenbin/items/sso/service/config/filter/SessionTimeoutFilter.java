@@ -31,7 +31,7 @@ public class SessionTimeoutFilter extends AccessControlFilter implements Templat
         HttpServletRequest request = WebUtils.toHttp(servletRequest);
         String uri = request.getRequestURI();
         String method = request.getMethod();
-        LOG.info("--SessionTimeoutFilter，访问URI:[{}]，请求方式:[{}]", uri, method);
+        LOG.info("-- SessionTimeoutFilter，访问URI:[{}]，请求方式:[{}]", uri, method);
 
         Subject subject = getSubject(servletRequest, servletResponse);
         Session session = subject.getSession(false);

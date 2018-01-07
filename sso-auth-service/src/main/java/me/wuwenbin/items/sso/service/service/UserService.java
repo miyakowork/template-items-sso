@@ -37,5 +37,5 @@ public interface UserService {
      * @return 新增条数
      * @throws Exception 添加用户时出现的异常
      */
-    public int addNewUser(User user) throws Exception;
+    int addNewUser(User user) throws Exception;
 }

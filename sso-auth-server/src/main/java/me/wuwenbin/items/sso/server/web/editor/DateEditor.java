@@ -60,7 +60,7 @@ public class DateEditor extends PropertyEditorSupport {
     }
 
     private static LocalDateTime string2Date(String strDate) {
-        if (strDate == null || strDate.equals("")) {
+        if (strDate == null || "".equals(strDate)) {
             throw new RuntimeException("str date null");
         }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern(strDate);

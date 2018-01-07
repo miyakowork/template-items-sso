@@ -2,7 +2,8 @@ package me.wuwenbin.items.sso.service.constant;
 
 
 /**
- * Created by wuwenbin on 2017/4/18.
+ * @author wuwenbin
+ * @date 2017/4/18
  */
 public interface CacheConsts {
 
@@ -35,5 +36,10 @@ public interface CacheConsts {
      * 登录记录缓存
      */
     String PASSWORD_RETRY_CACHE = "passwordRetryCache";
+
+    /**
+     * 验权缓存
+     */
+    String OAUTH_CACHE = "oAuth2Cache";
 
 }

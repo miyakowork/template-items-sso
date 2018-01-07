@@ -19,6 +19,11 @@ public interface ShiroConsts {
     String SESSION_USERNAME_KEY = "session.username.key";
 
     /**
+     * 存取user的key
+     */
+    String SESSION_USER_KEY = "session.user.key";
+
+    /**
      * 获取登录失败时候的错误异常的key
      */
     String LOGIN_FAILURE = FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME;
@@ -47,5 +52,7 @@ public interface ShiroConsts {
      * favicon
      */
     String FAVICON = "/favicon.ico";
+
+
 }
 

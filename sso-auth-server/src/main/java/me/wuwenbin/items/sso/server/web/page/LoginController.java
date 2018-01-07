@@ -20,11 +20,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
+
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public ModelAndView login() {
         String userName = UserUtils.getLoginUserName();
         if (StringUtils.isNotEmpty(userName)) {
-            return new ModelAndView(new RedirectView(""));
+            return new ModelAndView(new RedirectView("/"));
         }
         return new ModelAndView("login");
     }

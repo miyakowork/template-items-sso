@@ -1,13 +1,16 @@
 package me.wuwenbin.items.sso.service.config.filter;
 
 import jodd.json.JsonSerializer;
+import me.wuwenbin.items.sso.dao.entity.SystemModule;
+import me.wuwenbin.items.sso.dao.entity.User;
 import me.wuwenbin.items.sso.dao.entity.UserLoginLog;
+import me.wuwenbin.items.sso.dao.repository.SystemModuleRepository;
 import me.wuwenbin.items.sso.dao.repository.UserLoginLogRepository;
 import me.wuwenbin.items.sso.dao.repository.UserRepository;
+import me.wuwenbin.items.sso.service.config.token.MyUsernamePasswordToken;
 import me.wuwenbin.items.sso.service.constant.ShiroConsts;
 import me.wuwenbin.items.sso.service.support.util.HttpUtils;
 import me.wuwenbin.items.sso.service.utils.FilterUtils;
-import me.wuwenbin.modules.pagination.util.StringUtils;
 import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
 import me.wuwenbin.modules.utils.http.R;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -22,8 +25,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 用于验证码验证的 Shiro 拦截器在用于身份认证的拦截器之前运行;
@@ -50,35 +55,47 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter impleme
     }
 
     @Override
+    protected AuthenticationToken createToken(String username, String password, ServletRequest request, ServletResponse response) {
+        boolean rememberMe = isRememberMe(request);
+        String host = getHost(request);
+        MyUsernamePasswordToken upt = new MyUsernamePasswordToken(username, password, rememberMe, host);
+        //login from user-login-server
+        upt.setFrom("uls");
+        return upt;
+    }
+
+    @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         //验证用户成功了，把用户名信息放到session中去
         subject.getSession().setAttribute(ShiroConsts.SESSION_USERNAME_KEY, token.getPrincipal());
+        User user = RepositoryFactory.get(UserRepository.class).findByUsername((String) token.getPrincipal());
+        subject.getSession().setAttribute(ShiroConsts.SESSION_USER_KEY, user);
         //验证用户成功了，删除强制登录的标识
         subject.getSession().removeAttribute(ShiroConsts.SESSION_FORCE_LOGOUT_KEY);
-        try {
-            Long userId = RepositoryFactory.get(UserRepository.class).findByUsername((String) token.getPrincipal()).getId();
-            UserLoginLog userLoginLog = UserLoginLog.builder().userId(userId).lastLoginDate(LocalDateTime.now()).lastLoginIp(HttpUtils.getRemoteAddr(httpServletRequest)).build();
-            userLoginLog.setEnabled(true);
-            userLoginLog.setUpdateDate(LocalDateTime.now());
-            RepositoryFactory.get(UserLoginLogRepository.class).save(userLoginLog);
-        } catch (Exception e) {
-            LOG.error("记录用户登录日志失败，异常信息：{}", e);
+
+        String successUrl = getSuccessUrl();
+        List<SystemModule> systemModules = RepositoryFactory.get(SystemModuleRepository.class).findByUserCanLogin((String) token.getPrincipal());
+        if (systemModules != null) {
+            //表示该用户仅有一个可登录的系统，直接让他登录此系统首页，不显示系统选择界面
+            if (systemModules.size() == 1) {
+                successUrl = systemModules.get(0).getIndexUrl();
+            } else {
+                //其余的则表示该用户有多个可登录的系统，登陆成功之后显示系统选择界面
+                subject.getSession().setAttribute("systemModules", systemModules);
+            }
+        } else {
+            //表示该用户没有一个可以登录的系统，显示错误页面
+            successUrl = "/error/404";
         }
-        Object beforeLoginSuccessUrl = httpServletRequest.getSession().getAttribute(ShiroConsts.BEFORE_LOGIN_SUCCESS_URL);
-        String uri = beforeLoginSuccessUrl != null ? StringUtils.isNotEmpty(beforeLoginSuccessUrl.toString()) ? beforeLoginSuccessUrl.toString() : getSuccessUrl() : getSuccessUrl();
+        traceLoginLog(httpServletRequest, user);
         if (!HttpUtils.isAjax(httpServletRequest)) {
             WebUtils.getAndClearSavedRequest(request);
-            WebUtils.redirectToSavedRequest(request, response, uri);
+            WebUtils.redirectToSavedRequest(request, response, successUrl);
             return false;
         } else {
-            httpServletResponse.setCharacterEncoding("UTF-8");
-            PrintWriter out = httpServletResponse.getWriter();
-            String json = new JsonSerializer().include("code", "message", "data").serialize(R.ok("登录成功", uri));
-            out.println(json);
-            out.flush();
-            out.close();
+            ajaxLoginSuccess(httpServletResponse, successUrl);
             return false;
         }
     }
@@ -124,6 +141,28 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter impleme
             return false;
         }
 //        return super.onAccessDenied(request, response);
+    }
+
+
+    private static void ajaxLoginSuccess(HttpServletResponse httpServletResponse, String uri) throws IOException {
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        PrintWriter out = httpServletResponse.getWriter();
+        String json = new JsonSerializer().include("code", "message", "data").serialize(R.ok("登录成功", uri));
+        out.println(json);
+        out.flush();
+        out.close();
+    }
+
+    private static void traceLoginLog(HttpServletRequest httpServletRequest, User u) {
+        try {
+            Long userId = u.getId();
+            UserLoginLog userLoginLog = UserLoginLog.builder().userId(userId).lastLoginDate(LocalDateTime.now()).lastLoginIp(HttpUtils.getRemoteAddr(httpServletRequest)).build();
+            userLoginLog.setEnabled(true);
+            userLoginLog.setUpdateDate(LocalDateTime.now());
+            RepositoryFactory.get(UserLoginLogRepository.class).save(userLoginLog);
+        } catch (Exception e) {
+            LOG.error("记录用户登录日志失败，异常信息：{}", e);
+        }
     }
 
 }

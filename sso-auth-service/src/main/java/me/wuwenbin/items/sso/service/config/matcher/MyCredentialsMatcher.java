@@ -8,7 +8,6 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.codec.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -75,8 +74,7 @@ public class MyCredentialsMatcher extends SimpleCredentialsMatcher {
     private String encrypt(AuthenticationToken authToken) {
         UsernamePasswordToken token = (UsernamePasswordToken) authToken;
         String username = token.getUsername();
-        char[] password = token.getPassword();
-        String plainPassword = new String(Base64.decode(String.valueOf(password)));
+        char[] md5Pass = token.getPassword();
         User user = userRepository.findByUsername(username);
         if (user == null) {
             /*
@@ -84,7 +82,7 @@ public class MyCredentialsMatcher extends SimpleCredentialsMatcher {
              */
             throw new UnknownAccountException();
         } else {
-            return passwordHelper.getPassword(user, plainPassword);
+            return passwordHelper.getPasswordByMd5(user, new String(md5Pass));
         }
     }
 

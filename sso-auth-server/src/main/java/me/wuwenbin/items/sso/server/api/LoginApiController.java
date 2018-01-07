@@ -4,6 +4,7 @@ import me.wuwenbin.items.sso.dao.entity.User;
 import me.wuwenbin.items.sso.dao.entity.UserLoginLog;
 import me.wuwenbin.items.sso.dao.repository.UserLoginLogRepository;
 import me.wuwenbin.items.sso.dao.repository.UserRepository;
+import me.wuwenbin.items.sso.service.config.token.MyUsernamePasswordToken;
 import me.wuwenbin.items.sso.service.constant.ShiroConsts;
 import me.wuwenbin.items.sso.service.support.util.HttpUtils;
 import me.wuwenbin.items.sso.service.support.util.ShiroUtils;
@@ -94,14 +95,17 @@ public class LoginApiController {
             }
             SecurityUtils.setSecurityManager(securityManager);
             Subject subject = SecurityUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password.toCharArray(), HttpUtils.getRemoteAddr(request));
+            MyUsernamePasswordToken token = new MyUsernamePasswordToken(username, password, false, HttpUtils.getRemoteAddr(request));
+            //表示是第三方使用api登录的
+            token.setFrom("3rd-api");
             subject.login(token);
             Session session = ShiroUtils.getSession();
             //验证用户成功了，把用户名信息放到session中去
             session.setAttribute(ShiroConsts.SESSION_USERNAME_KEY, username);
+            subject.getSession().setAttribute(ShiroConsts.SESSION_USER_KEY, user);
             //验证用户成功了，删除强制登录的标识
             session.removeAttribute(ShiroConsts.SESSION_FORCE_LOGOUT_KEY);
-            traceLoginLog(request, username);
+            traceLoginLog(user.getId(), request);
             return R.ok("login success").put("access_token", session.getId());
         } catch (UnknownAccountException e) {
             LOG.error("帐号不存在");
@@ -129,11 +133,10 @@ public class LoginApiController {
      * 记录日志
      *
      * @param request
-     * @param username
+     * @param userId
      * @throws Exception
      */
-    private static void traceLoginLog(HttpServletRequest request, String username) throws Exception {
-        Long userId = RepositoryFactory.get(UserRepository.class).findByUsername(username).getId();
+    private static void traceLoginLog(long userId, HttpServletRequest request) throws Exception {
         UserLoginLog userLoginLog = UserLoginLog.builder()
                 .userId(userId)
                 .lastLoginDate(LocalDateTime.now())

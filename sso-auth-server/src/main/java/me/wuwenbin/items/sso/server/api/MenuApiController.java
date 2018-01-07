@@ -4,7 +4,7 @@ import me.wuwenbin.items.sso.dao.entity.Menu;
 import me.wuwenbin.items.sso.dao.repository.MenuRepository;
 import me.wuwenbin.items.sso.server.web.BaseController;
 import me.wuwenbin.items.sso.service.model.Ztree;
-import me.wuwenbin.items.sso.service.service.MenuModuleService;
+import me.wuwenbin.items.sso.service.service.MenuService;
 import me.wuwenbin.items.sso.service.service.common.PublicServices;
 import me.wuwenbin.items.sso.service.support.util.UserUtils;
 import me.wuwenbin.modules.pagination.util.StringUtils;
@@ -28,7 +28,7 @@ import java.util.List;
 public class MenuApiController extends BaseController {
 
     @Autowired
-    private MenuModuleService menuModuleService;
+    private MenuService menuService;
     @Resource
     private MenuRepository menuRepository;
 
@@ -56,7 +56,7 @@ public class MenuApiController extends BaseController {
     @RequiresPermissions("base:menu:add")
     @ResourceScan("添加菜单操作")
     public R add(Menu menu) {
-        return Controllers.builder("添加菜单").exec(() -> menuModuleService.addMenu(menu));
+        return Controllers.builder("添加菜单").exec(() -> menuService.addMenu(menu));
     }
 
     /**
@@ -69,7 +69,7 @@ public class MenuApiController extends BaseController {
     @RequiresPermissions("base:menu:edit")
     @ResourceScan("编辑菜单操作")
     public R edit(Menu menu) {
-        return Controllers.builder("编辑菜单").exec(() -> menuModuleService.editMenu(menu));
+        return Controllers.builder("编辑菜单").exec(() -> menuService.editMenu(menu));
     }
 
     /**
@@ -82,7 +82,7 @@ public class MenuApiController extends BaseController {
     @RequiresPermissions("base:menu:delete")
     @ResourceScan("删除菜单操作")
     public R delete(Long id) {
-        return Controllers.builder("删除菜单").execLight(id, (o) -> menuModuleService.deleteMenu(o));
+        return Controllers.builder("删除菜单").execLight(id, (o) -> menuService.deleteMenu(o));
     }
 
     /**
@@ -112,7 +112,7 @@ public class MenuApiController extends BaseController {
     @RequiresPermissions("base:menu:addMenuRes")
     @ResourceScan("添加菜单查找带回的权限资源")
     public List<Ztree> findAddMenuPrivilegeResource(String resourceModuleId, String roleId) {
-        return menuModuleService.findSelectMenuPrivilege(resourceModuleId, roleId);
+        return menuService.findSelectMenuPrivilege(resourceModuleId, roleId);
     }
 
     /**
@@ -126,6 +126,6 @@ public class MenuApiController extends BaseController {
     @RequiresPermissions("base:menu:getMenuListIndex")
     @ResourceScan("首页获取左侧菜单")
     public List<Menu> getMenuListIndex(int menuModuleId, String systemCode) {
-        return menuModuleService.findLeftMenuCached(UserUtils.getLoginUser().getDefaultRoleId(), menuModuleId, systemCode);
+        return menuService.findLeftMenuCached(UserUtils.getLoginUser().getDefaultRoleId(), menuModuleId, systemCode);
     }
 }

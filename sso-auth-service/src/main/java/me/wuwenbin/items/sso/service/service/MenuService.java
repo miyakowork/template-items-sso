@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author wuwenbin
  */
-public interface MenuModuleService {
+public interface MenuService {
 
     /**
      * 添加菜单

@@ -4,6 +4,7 @@ eureka:
       defaultZone: http://admin:123654@localhost:80/eureka/
 server:
   port: 8084
+  connection-timeout: 10000
 spring:
   application:
     name: sso-app1
@@ -15,11 +16,3 @@ spring:
       static-path-pattern: /static/**
       favicon:
         enabled: false
-template:
-  client:
-    login-url: /login
-    filter-auth-url: /**
-    filter-none-url: /login,/doLogin
-feign:
-  httpclient:
-    connection-timeout: 10000

@@ -30,7 +30,7 @@ public class ForceLogoutFilter extends AccessControlFilter implements TemplateFi
         HttpServletRequest req = WebUtils.toHttp(request);
         String uri = req.getRequestURI();
         String method = req.getMethod();
-        LOG.info("--ForceLogoutFilter，访问URI:[{}]，请求方式:[{}]", uri, method);
+        LOG.info("-- ForceLogoutFilter，访问URI:[{}]，请求方式:[{}]", uri, method);
 
         Session session = getSubject(request, response).getSession(false);
         if (session != null) {

@@ -13,6 +13,7 @@ import me.wuwenbin.modules.pagination.model.bootstrap.BootstrapTable;
 import me.wuwenbin.modules.scanner.annotation.ResourceScan;
 import me.wuwenbin.modules.utils.bean.ArrayConverts;
 import me.wuwenbin.modules.utils.http.R;
+import me.wuwenbin.modules.utils.security.asymmetric.RSA;
 import me.wuwenbin.modules.utils.web.Controllers;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
@@ -66,7 +68,10 @@ public class SysModuleApiController extends BaseController {
         return Controllers.builder("添加系统模块")
                 .exec(() -> systemModuleRepository.countBySystemCode(systemModule.getSystemCode()) == 0,
                         () -> systemModuleRepository.save(systemModule) != null,
-                        () -> R.error("系统模块代码已存在"));
+                        () -> R.error("系统模块代码已存在"),
+                        (r) -> generateKeyPair(r, systemModule, systemModuleRepository),
+                        UnaryOperator.identity(), UnaryOperator.identity());
+
     }
 
     /**
@@ -119,6 +124,18 @@ public class SysModuleApiController extends BaseController {
     @ResourceScan("获取系统模块的zTree树，无异步加载")
     public List<Ztree> findModulesTreeEnabled() {
         return PublicServices.model2Ztree(systemModuleRepository.findByEnabled(true));
+    }
+
+
+    private R generateKeyPair(R r, SystemModule systemModule, SystemModuleRepository repository) {
+        RSA rsa = new RSA();
+        String privateKey = rsa.getPrivateKeyBase64();
+        String publicKey = rsa.getPublicKeyBase64();
+        systemModule.setPrivateKey(privateKey);
+        systemModule.setPublicKey(publicKey);
+        r.put("privateKey", rsa.getPrivateKeyBase64());
+        repository.updateKeysBySystemCode(systemModule);
+        return r;
     }
 
 }
