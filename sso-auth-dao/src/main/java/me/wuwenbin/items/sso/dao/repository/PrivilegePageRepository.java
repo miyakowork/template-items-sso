@@ -2,6 +2,7 @@ package me.wuwenbin.items.sso.dao.repository;
 
 import me.wuwenbin.items.sso.dao.entity.PrivilegePage;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
 import me.wuwenbin.modules.sql.constant.Router;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface PrivilegePageRepository extends IPageAndSortRepository<PrivilegePage, Long> {
+public interface PrivilegePageRepository extends IPageAndSortRepository<PrivilegePage, Long>, IBaseCrudRepository<PrivilegePage, Long> {
 
     /**
      * 根据资源模块id查找页面级权限

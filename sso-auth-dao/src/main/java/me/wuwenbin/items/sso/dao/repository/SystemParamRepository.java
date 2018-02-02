@@ -2,6 +2,7 @@ package me.wuwenbin.items.sso.dao.repository;
 
 import me.wuwenbin.items.sso.dao.entity.SystemParam;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
 import me.wuwenbin.modules.sql.constant.Router;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface SystemParamRepository extends IPageAndSortRepository<SystemParam, Long> {
+public interface SystemParamRepository extends IPageAndSortRepository<SystemParam, Long>, IBaseCrudRepository<SystemParam, Long> {
 
     /**
      * 根据 name查找对应数据

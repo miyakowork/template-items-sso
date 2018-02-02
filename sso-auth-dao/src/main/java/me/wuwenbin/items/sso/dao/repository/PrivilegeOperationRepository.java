@@ -2,6 +2,7 @@ package me.wuwenbin.items.sso.dao.repository;
 
 import me.wuwenbin.items.sso.dao.entity.PrivilegeOperation;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface PrivilegeOperationRepository extends IPageAndSortRepository<PrivilegeOperation, Long> {
+public interface PrivilegeOperationRepository extends IPageAndSortRepository<PrivilegeOperation, Long>, IBaseCrudRepository<PrivilegeOperation, Long> {
 
     /**
      * 根据编辑操作权限名称

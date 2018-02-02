@@ -3,6 +3,7 @@ package me.wuwenbin.items.sso.dao.repository;
 import me.wuwenbin.items.sso.dao.entity.Role;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.find.annotation.ListMap;
 import me.wuwenbin.modules.repository.provider.find.annotation.OrderBy;
@@ -22,7 +23,7 @@ import java.util.Map;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface RoleRepository extends IPageAndSortRepository<Role, Long> {
+public interface RoleRepository extends IPageAndSortRepository<Role, Long>, IBaseCrudRepository<Role, Long> {
 
     /**
      * 查找所有的角色按照系统代码排序

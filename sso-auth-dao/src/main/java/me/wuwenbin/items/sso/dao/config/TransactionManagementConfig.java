@@ -1,11 +1,10 @@
 package me.wuwenbin.items.sso.dao.config;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-
-import javax.sql.DataSource;
 
 /**
  * created by Wuwenbin on 2017/12/28 at 16:03
@@ -16,7 +15,7 @@ import javax.sql.DataSource;
 public class TransactionManagementConfig {
 
     @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+    public PlatformTransactionManager transactionManager(DruidDataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 }

@@ -3,6 +3,7 @@ package me.wuwenbin.items.sso.dao.repository;
 import me.wuwenbin.items.sso.dao.entity.SystemModule;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.find.annotation.Primitive;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface SystemModuleRepository extends IPageAndSortRepository<SystemModule, Long> {
+public interface SystemModuleRepository extends IPageAndSortRepository<SystemModule, Long>, IBaseCrudRepository<SystemModule, Long> {
 
     /**
      * 统计系统代码为systemCode的记录数

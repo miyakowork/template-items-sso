@@ -3,6 +3,7 @@ package me.wuwenbin.items.sso.dao.repository;
 import me.wuwenbin.items.sso.dao.entity.Resource;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.find.annotation.PrimitiveCollection;
 import me.wuwenbin.modules.repository.provider.update.annotation.Modify;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface ResourceRepository extends IPageAndSortRepository<Resource, Long> {
+public interface ResourceRepository extends IPageAndSortRepository<Resource, Long>, IBaseCrudRepository<Resource, Long> {
 
     /**
      * 根据roleId查找该roleId所含有的权限标识

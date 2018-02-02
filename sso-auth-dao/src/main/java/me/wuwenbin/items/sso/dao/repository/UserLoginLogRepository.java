@@ -3,6 +3,7 @@ package me.wuwenbin.items.sso.dao.repository;
 import me.wuwenbin.items.sso.dao.entity.UserLoginLog;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.constant.Parametric;
 import me.wuwenbin.modules.repository.provider.save.annotation.SaveSQL;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface UserLoginLogRepository extends IPageAndSortRepository<UserLoginLog, Long> {
+public interface UserLoginLogRepository extends IPageAndSortRepository<UserLoginLog, Long>, IBaseCrudRepository<UserLoginLog, Long> {
 
     /**
      * 计算sum

@@ -4,6 +4,7 @@ import me.wuwenbin.items.sso.dao.entity.User;
 import me.wuwenbin.modules.repository.annotation.field.Routers;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,7 @@ import static me.wuwenbin.items.sso.dao.constant.SQLRouters.EDIT_USER;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface UserRepository extends IPageAndSortRepository<User, Long> {
+public interface UserRepository extends IPageAndSortRepository<User, Long>, IBaseCrudRepository<User, Long> {
 
     /**
      * 修改用户基本信息

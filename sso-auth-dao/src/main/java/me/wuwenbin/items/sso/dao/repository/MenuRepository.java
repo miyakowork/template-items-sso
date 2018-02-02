@@ -4,6 +4,7 @@ import me.wuwenbin.items.sso.dao.entity.Menu;
 import me.wuwenbin.modules.repository.annotation.field.Routers;
 import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
+import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
 import me.wuwenbin.modules.repository.provider.find.annotation.OrderBy;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ import static me.wuwenbin.items.sso.dao.constant.SQLRouters.FIND_LEFT_MENU;
  */
 @Repository
 @Transactional(rollbackFor = Exception.class)
-public interface MenuRepository extends IPageAndSortRepository<Menu, Long> {
+public interface MenuRepository extends IPageAndSortRepository<Menu, Long>, IBaseCrudRepository<Menu, Long> {
 
     /**
      * 根据菜单模块查找可用的菜单

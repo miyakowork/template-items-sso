@@ -14,4 +14,4 @@
 |           SpringBoot                |      1.5.9.RELEASE    |
 |           SpringCloud              |      Edgware.RELEASE    |
 |           Apache Shiro            |      1.4.0    |
-|           TemplateModules    |      1.10.15-SNAPSHOT    |
+|           TemplateModules    |      1.10.18-SNAPSHOT    |
