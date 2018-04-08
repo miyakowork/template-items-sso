@@ -64,7 +64,7 @@
         <dependency>
             <groupId>me.wuwenbin</groupId>
             <artifactId>template-modules-utils</artifactId>
-            <version>1.10.18-SNAPSHOT</version>
+            <version>1.11.0.RELEASE</version>
         </dependency>
 
 

@@ -16,7 +16,7 @@
     </modules>
 
     <properties>
-        <module.version>1.10.18-SNAPSHOT</module.version>
+        <module.version>1.11.0.RELEASE</module.version>
     </properties>
 
     <parent>
