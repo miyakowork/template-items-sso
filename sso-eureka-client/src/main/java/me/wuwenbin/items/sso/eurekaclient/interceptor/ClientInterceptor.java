@@ -6,8 +6,8 @@ import me.wuwenbin.items.sso.eurekaclient.context.ClientCode;
 import me.wuwenbin.items.sso.eurekaclient.context.ClientRepository;
 import me.wuwenbin.items.sso.eurekaclient.cookie.ClientCookieUtils;
 import me.wuwenbin.items.sso.eurekaclient.service.ClientService;
-import me.wuwenbin.modules.utils.http.HttpUtils;
 import me.wuwenbin.modules.utils.http.R;
+import me.wuwenbin.modules.utils.http.WebUtils;
 import me.wuwenbin.modules.utils.lang.LangUtils;
 import me.wuwenbin.modules.utils.security.Encrypt;
 import org.apache.shiro.authz.annotation.Logical;
@@ -51,7 +51,7 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
         Cookie cookie = ClientCookieUtils.getCookie(request, client.getSessionIdCookie());
         if (cookie == null || StringUtils.isEmpty(cookie.getValue())) {
             String sessionIdCookie = Encrypt.digest.md5Hex(LangUtils.random.uuid());
-            ClientCookieUtils.setCookie(response, client.getSessionIdCookie(), HttpUtils.getRemoteAddr(request), sessionIdCookie, client.getExpire());
+            ClientCookieUtils.setCookie(response, client.getSessionIdCookie(), WebUtils.getRemoteAddr(request), sessionIdCookie, client.getExpire());
             response.sendRedirect(request.getRequestURI());
             return false;
         }
@@ -115,7 +115,7 @@ public class ClientInterceptor extends HandlerInterceptorAdapter {
     }
 
     private boolean responseError(HttpServletRequest request, HttpServletResponse response, int code, Object message) throws IOException {
-        if (HttpUtils.isAjaxRequest(request)) {
+        if (WebUtils.isAjaxRequest(request)) {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             PrintWriter out = response.getWriter();
