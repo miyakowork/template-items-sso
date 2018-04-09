@@ -6,6 +6,7 @@ import me.wuwenbin.modules.repository.annotation.field.SQL;
 import me.wuwenbin.modules.repository.annotation.type.Repository;
 import me.wuwenbin.modules.repository.api.open.IBaseCrudRepository;
 import me.wuwenbin.modules.repository.api.open.IPageAndSortRepository;
+import me.wuwenbin.modules.repository.provider.find.annotation.ListMap;
 import me.wuwenbin.modules.repository.provider.find.annotation.OrderBy;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +60,7 @@ public interface MenuRepository extends IPageAndSortRepository<Menu, Long>, IBas
      * @throws Exception
      */
     @Routers(EDIT_MENU)
-    int editMenuInfo(Menu menu) throws Exception;
+    int updateMenuInfo(Menu menu) throws Exception;
 
     /**
      * 删除id或者parentId为i当前值的菜单记录
@@ -81,6 +82,7 @@ public interface MenuRepository extends IPageAndSortRepository<Menu, Long>, IBas
     @SQL("SELECT topp.*,tor.url FROM t_oauth_privilege_page topp LEFT JOIN t_oauth_resource tor ON tor.id = topp.resource_id " +
             "WHERE topp.resource_module_id = ? AND topp.resource_id IN " +
             "(SELECT torr.resource_id FROM t_oauth_role_resource torr WHERE torr.role_id = ?)")
+    @ListMap
     List<Map<String, Object>> findPrivilegePageList(String resourceModuleId, String roleId);
 
     /**

@@ -276,7 +276,7 @@ var Global = {
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
-                axios.post(url + "?ids=" + ids)
+                axios.post(url + "?ids=" + ids + "&id=" + ids)
                     .then(function (response) {
                         if (response.data.code === Global.status_code.success) {
                             layer.msg(response.data.message);

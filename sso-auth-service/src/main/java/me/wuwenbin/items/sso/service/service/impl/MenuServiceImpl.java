@@ -48,7 +48,7 @@ public class MenuServiceImpl implements MenuService {
             return String.join(":", oldMenu.getSystemCode(), roleId, menuModuleId);
         });
         menu.preUpdate(UserUtils.getLoginUser()::getId);
-        return menuRepository.editMenuInfo(menu) == 1;
+        return menuRepository.updateMenuInfo(menu) == 1;
     }
 
     @Override
