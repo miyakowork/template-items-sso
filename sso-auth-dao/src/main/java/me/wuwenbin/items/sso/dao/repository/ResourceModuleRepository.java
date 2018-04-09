@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static me.wuwenbin.items.sso.dao.constant.SQLRouters.EDIT_RES_MODULE;
+
 /**
  * created by Wuwenbin on 2017/12/24 at 13:34
  *
@@ -42,7 +44,7 @@ public interface ResourceModuleRepository extends IPageAndSortRepository<Resourc
      * @param resourceModule
      * @return
      */
-    @Modify(Router.DEFAULT)
+    @Modify({Router.DEFAULT, EDIT_RES_MODULE})
     int updateById(ResourceModule resourceModule);
 
 }

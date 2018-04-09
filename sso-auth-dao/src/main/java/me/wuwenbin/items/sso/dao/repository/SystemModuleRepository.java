@@ -64,7 +64,7 @@ public interface SystemModuleRepository extends IPageAndSortRepository<SystemMod
      * @return
      */
     @Modify(Router.A)
-    int updateKeysBySystemCode(SystemModule systemModule);
+    int updateBySystemCode(SystemModule systemModule);
 
     /**
      * 根据systemCode查找对应的publicKey

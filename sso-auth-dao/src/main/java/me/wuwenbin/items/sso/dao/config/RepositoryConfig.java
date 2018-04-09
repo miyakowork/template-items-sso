@@ -1,6 +1,7 @@
 package me.wuwenbin.items.sso.dao.config;
 
 import me.wuwenbin.modules.repository.api.repository.RepositoryFactory;
+import me.wuwenbin.modules.repository.registry.RepositoryRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RepositoryConfig {
+
+    @Bean
+    public static RepositoryRegistry repositoryRegistry() {
+        return new RepositoryRegistry("me.wuwenbin");
+    }
 
     @Bean
     public RepositoryFactory repositoryFactory(ApplicationContext applicationContext) {

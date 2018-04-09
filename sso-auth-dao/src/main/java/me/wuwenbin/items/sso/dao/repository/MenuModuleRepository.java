@@ -44,6 +44,15 @@ public interface MenuModuleRepository extends IPageAndSortRepository<MenuModule,
     List<MenuModule> findMenuModuleByRoleIdAndSystemCode(Long roleId, String systemCode);
 
     /**
+     * 根据系统代码查找可用的菜单模块
+     *
+     * @param systemCode
+     * @return
+     */
+    @SQL("SELECT tomm.* FROM t_oauth_menu_module tomm WHERE tomm.system_code = ? AND tomm.enabled = 1")
+    List<MenuModule> findMenuModulesBySystemCode(String systemCode);
+
+    /**
      * 修改
      *
      * @param menuModule

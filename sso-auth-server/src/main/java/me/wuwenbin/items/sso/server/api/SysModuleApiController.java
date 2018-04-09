@@ -134,7 +134,7 @@ public class SysModuleApiController extends BaseController {
         systemModule.setPrivateKey(privateKey);
         systemModule.setPublicKey(publicKey);
         r.put("privateKey", rsa.getPrivateKeyBase64());
-        repository.updateKeysBySystemCode(systemModule);
+        repository.updateBySystemCode(systemModule);
         return r;
     }
 

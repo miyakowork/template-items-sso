@@ -47,14 +47,14 @@ public class PrivilegeOperationApiController extends BaseController {
     @ResourceScan("添加操作级权限操作")
     public R add(PrivilegeOperation privilegeOperation) {
         privilegeOperation.preInsert(UserUtils.getLoginUser()::getId);
-        return Controllers.builder("添加操作机权限").exec(() -> privilegeOperationRepository.save(privilegeOperation) != null);
+        return Controllers.builder("添加操作级权限").exec(() -> privilegeOperationRepository.save(privilegeOperation) != null);
     }
 
     @RequestMapping("edit")
     @RequiresPermissions("base:privilegeOperation:edit")
     @ResourceScan("编辑操作级权限操作")
     public R edit(Long id, String operationName) {
-        return Controllers.builder("修改操作机权限名称").exec(() -> privilegeOperationRepository.updateOperationNameById(operationName, id) == 1);
+        return Controllers.builder("修改操作级权限名称").exec(() -> privilegeOperationRepository.updateOperationNameById(operationName, id) == 1);
     }
 
     @RequestMapping("delete")
@@ -63,6 +63,6 @@ public class PrivilegeOperationApiController extends BaseController {
     public R delete(String id) {
         long[] idArray = ArrayConverts.toLongArray(id.split(","));
         List<Long> longs = Arrays.stream(idArray).boxed().collect(Collectors.toList());
-        return Controllers.builder("删除操作及权限").execLight(longs, idLongs -> privilegeOperationRepository.delete(longs));
+        return Controllers.builder("删除操作级权限").execLight(longs, idLongs -> privilegeOperationRepository.delete(longs));
     }
 }

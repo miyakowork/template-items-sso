@@ -18,7 +18,7 @@ spring:
       driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://127.0.0.1:3306/templateItemsOauth2?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true
       username: root
-      password: 12345678
+      password: 547521014
       initial-size: 5
       min-idle: 5
       max-active: 20
@@ -53,7 +53,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://admin:123654@localhost:80/eureka/
+      defaultZone: http://admin:123654@localhost:8080/eureka/
 feign:
   httpclient:
     connection-timeout: 10000

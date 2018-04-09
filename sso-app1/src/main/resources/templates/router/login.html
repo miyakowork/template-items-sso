@@ -1,0 +1,12 @@
+<h4 style="margin-top: 10px;">
+    登录过期！系统即将自动跳转至登录界面，如果未能跳转，<a href="javascript:loadLogin();" title="点击访问">请点击</a>。
+</h4>
+<script type="text/javascript">
+    setTimeout(function () {
+        loadLogin();
+    }, 1500);
+
+    function loadLogin() {
+        window.location.href = Global.getRootPath() + "/login";
+    }
+</script>

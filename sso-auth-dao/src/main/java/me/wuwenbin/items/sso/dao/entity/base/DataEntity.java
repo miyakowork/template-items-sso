@@ -20,7 +20,7 @@ import static me.wuwenbin.items.sso.dao.constant.SQLRouters.*;
 @MappedSuper
 public class DataEntity<PK> extends TreeEntity<PK> {
 
-    @SQLColumn(routers = {EDIT_USER, FIND_LEFT_MENU})
+    @SQLColumn(routers = {EDIT_USER, FIND_LEFT_MENU, EDIT_RES_MODULE})
     protected Boolean enabled;
     @SQLColumn(routers = {EDIT_MENU, EDIT_USER})
     protected Integer orderIndex;

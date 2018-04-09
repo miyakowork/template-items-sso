@@ -2,6 +2,7 @@ package me.wuwenbin.items.sso.dao.constant;
 
 /**
  * created by Wuwenbin on 2017/12/23 at 17:40
+ *
  * @author wuwenbin
  */
 public interface SQLRouters {
@@ -30,4 +31,9 @@ public interface SQLRouters {
      * 更新会话
      */
     int UPDATE_SESSION = 5;
+
+    /**
+     * 更新资源模块
+     */
+    int EDIT_RES_MODULE = 6;
 }

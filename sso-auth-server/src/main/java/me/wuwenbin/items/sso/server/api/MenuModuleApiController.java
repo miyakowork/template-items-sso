@@ -104,7 +104,8 @@ public class MenuModuleApiController extends BaseController {
     @ResourceScan("查找可用的菜单模块集合操作")
     public List<MenuModule> findEnabledMenuModules(String systemModuleCode) {
         if (StringUtils.isNotEmpty(systemModuleCode)) {
-            return menuModuleRepository.findMenuModuleByRoleIdAndSystemCode(UserUtils.getLoginUser().getDefaultRoleId(), systemModuleCode);
+//            return menuModuleRepository.findMenuModuleByRoleIdAndSystemCode(UserUtils.getLoginUser().getDefaultRoleId(), systemModuleCode);
+            return menuModuleRepository.findMenuModulesBySystemCode(systemModuleCode);
         } else {
             return menuModuleRepository.findByEnabled(true);
         }

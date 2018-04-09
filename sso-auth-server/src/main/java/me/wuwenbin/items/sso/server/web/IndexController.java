@@ -79,7 +79,7 @@ public class IndexController extends BaseController {
         if (!StringUtils.isEmpty(systemCode)) {
             String systemIndex = systemModuleRepository.findIndexUrlBySystemCode(systemCode);
             String redirectUrl = "redirect:" + systemIndex + "?action=redirect2Module&f=uls";
-            if (redirectUrl.contains("?")) {
+            if (redirectUrl.contains(" ?")) {
                 redirectUrl = redirectUrl.concat("&access_token=");
             } else {
                 redirectUrl = redirectUrl.concat("?access_token=");
